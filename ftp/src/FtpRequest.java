@@ -31,10 +31,10 @@ public class FtpRequest {
 		
 	}
 
-	public String processUser(String user) {
+	public int processUser(String user) {
 		String result= "" ;
 		
-		return result;
+		return 200;
 	}
 
 	public void processPass(String string) {
