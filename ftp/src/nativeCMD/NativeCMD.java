@@ -1,6 +1,10 @@
 package nativeCMD;
 
-public interface NativeCMD {
+public interface  NativeCMD {
 
-	public void userExist(String user);
+	boolean userExist(String user);
+	
+	boolean goodPassword(String password) throws BadOrderException;
+	
+	
 }
