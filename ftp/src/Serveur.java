@@ -21,6 +21,7 @@ public class Serveur extends Thread {
 	 * Wait for a new connection from a Client
 	 * A new thread is created when a client is connected
 	 */
+	@Override
 	public void run() {
 		while (true) {
 			System.out.println("Waiting client ...");

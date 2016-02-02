@@ -1,10 +1,10 @@
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.sun.xml.internal.ws.util.StringUtils;
 
 public class FtpRequest implements Runnable {
 
@@ -21,21 +21,24 @@ public class FtpRequest implements Runnable {
 	private String folderPath;
 	
 	/** Stream containing the incomming data **/
-	private DataInputStream dataIn;
+	private InputStream dataIn;
 	
 	/** Stream where FtpRequest will write the data to send **/
-	private DataOutputStream dataOut;
+	private OutputStream dataOut;
 	
 	/** Temporary solution for the connection **/
 	private Map<String,String> mapUserPwd;
 	
 	private static final String fichierUserPwd = "./userPwd.txt"; // fichier hyper sécurisé
 
-	public FtpRequest(final Socket socket, final String folder) {
+	public FtpRequest(final Socket socket, final String folder) throws IOException {
 		this.socket = socket;
+		this.dataIn = this.socket.getInputStream();
+		this.dataOut = this.socket.getOutputStream();
 		this.user = "";
 		this.isAuthenticated = false;
 		this.folderPath = folder;
+		mapUserPwdInitialisation();
 	}
 	
 	private void mapUserPwdInitialisation() {
@@ -46,7 +49,14 @@ public class FtpRequest implements Runnable {
 	}
 	
 	public void run() {
-		//TODO
+		byte inMess[] = new byte[2048];
+		try {
+			this.dataIn.read(inMess);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void processRequest(final String string) {
@@ -79,20 +89,23 @@ public class FtpRequest implements Runnable {
 		
 	}
 
-	public int processUser(final String user) {
+	public String processUser(final String user) {
 		this.user = user;
-		return 331; //User name okay, need password.
+		return "331"; //User name okay, need password.
 	}
-
-	public int processPass(final String pass) {
+	
+	public String processPass(final String pass) {
+		if (this.isAuthenticated) {
+			return "230"; // Peut être une bétise (dépend si on accepte les connexions successives ou pas) : Already logged in. 
+		}
 		if ((this.user == null) || ("".equals(this.user.trim()))) {
-			return 530; // Not logged in
+			return "530"; // Not logged in
 		}
 		if (this.mapUserPwd.get(this.user).equals(pass)) {
 			this.isAuthenticated = true;
-			return 257;
+			return "257";
 		}
-		return 530; // Not logged in
+		return "530"; // Not logged in
 	}
 
 	public void processRetr(final String string) {
