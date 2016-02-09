@@ -76,13 +76,13 @@ public class FtpRequest implements Runnable {
 		String[] req = string.split(" ", 2);
 		String mess;
 		String request = req[0].toUpperCase();
-		if ("USER".equals(request)) {
+		if ("USER".equals(request) && req.length == 2) {
 			mess = this.processUser(this.cleanCmd(req[1]));
-		} else if ("PASS".equals(request)) {
+		} else if ("PASS".equals(request) && req.length == 2) {
 			mess = this.processPass(this.cleanCmd(req[1]));
-		} else if ("RETR".equals(request)) {
+		} else if ("RETR".equals(request) && req.length == 2) {
 			mess = this.processRetr(this.cleanCmd(req[1]));
-		} else if ("STOR".equals(request)) {
+		} else if ("STOR".equals(request) && req.length == 2) {
 			mess = this.processStor(this.cleanCmd(req[1]));
 		} else if ("LIST".equals(request)) {
 			mess = this.processList();
