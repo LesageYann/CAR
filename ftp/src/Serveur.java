@@ -33,12 +33,18 @@ public class Serveur extends Thread {
 			}
 		}
 	}
+	
+	public static final void main(String[] args){
+		Serveur s = new Serveur();
+		s.initialization(1666);
+		s.run();
+	}
 
 	public ServerSocket getServeurSocket() {
 		return serveurSocket;
 	}
 
-	public void setServeurSocket(ServerSocket serveurSocket) {
+	public void setServeurSocket(final ServerSocket serveurSocket) {
 		this.serveurSocket = serveurSocket;
 	}
 
@@ -46,7 +52,7 @@ public class Serveur extends Thread {
 		return socket;
 	}
 
-	public void setSocket(Socket socket) {
+	public void setSocket(final Socket socket) {
 		this.socket = socket;
 	}
 

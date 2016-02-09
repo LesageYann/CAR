@@ -23,43 +23,43 @@ public class TestFtpRequest extends TestCase {
 	}
 	
 	@Test
-	public void testProcessRequestUser(){
+	public void testProcessRequestUser() throws IOException {
 		ftp.processRequest("USER name"); 
 		Mockito.verify(ftp).processUser("name");
 	}
 	
 	@Test
-	public void testProcessRequestPass(){
+	public void testProcessRequestPass() throws IOException {
 		ftp.processRequest("PASS pwd"); 
 		Mockito.verify(ftp).processPass("pwd");
 	}
 	
 	@Test
-	public void testProcessRequestRetr(){
+	public void testProcessRequestRetr() throws IOException {
 		ftp.processRequest("RETR name"); 
 		Mockito.verify(ftp).processRetr("name");
 	}
 	
 	@Test
-	public void testProcessRequestStor(){
+	public void testProcessRequestStor() throws IOException {
 		ftp.processRequest("STOR name"); 
 		Mockito.verify(ftp).processStor("name");
 	}
 	
 	@Test
-	public void testProcessRequestList(){
+	public void testProcessRequestList() throws IOException {
 		ftp.processRequest("LIST"); 
 		Mockito.verify(ftp).processList();
 	}
 	
 	@Test
-	public void testProcessRequestQuit(){
+	public void testProcessRequestQuit() throws IOException {
 		ftp.processRequest("QUIT"); 
 		Mockito.verify(ftp).processQuit();
 	}
 	
 	@Test
-	public void testProcessRequestUnkownCMDError(){
+	public void testProcessRequestUnkownCMDError() throws IOException {
 		ftp.processRequest("Hibou"); 
 		
 		// erreur 500
