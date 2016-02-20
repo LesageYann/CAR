@@ -76,24 +76,46 @@ public class FtpRequest implements Runnable {
 		String[] req = string.split(" ", 2);
 		String mess;
 		String request = req[0].toUpperCase();
-		if ("USER".equals(request) && req.length == 2) {
+		if (Constantes.CMD_USER.equals(request) && req.length == 2) {
 			mess = this.processUser(this.cleanCmd(req[1]));
-		} else if ("PASS".equals(request) && req.length == 2) {
+		} else if (Constantes.CMD_PASS.equals(request) && req.length == 2) {
 			mess = this.processPass(this.cleanCmd(req[1]));
-		} else if ("RETR".equals(request) && req.length == 2) {
+		} else if (Constantes.CMD_RETR.equals(request) && req.length == 2) {
 			mess = this.processRetr(this.cleanCmd(req[1]));
-		} else if ("STOR".equals(request) && req.length == 2) {
+		} else if (Constantes.CMD_STOR.equals(request) && req.length == 2) {
 			mess = this.processStor(this.cleanCmd(req[1]));
-		} else if ("LIST".equals(request)) {
+		} else if (Constantes.CMD_LIST.equals(request)) {
 			mess = this.processList();
-		} else if ("QUIT".equals(request)) {
+		} else if (Constantes.CMD_QUIT.equals(request)) {
 			mess = this.processQuit();
-		} else {
+		} else if (Constantes.CMD_PORT.equals(request)) {
+			mess = this.processPort();
+		} else if (Constantes.CMD_SYST.equals(request)) {
+			mess = this.processSyst();
+		} else if (Constantes.CMD_TYPE.equals(request)) {
+			mess = this.processType();
+		}
+		else {
 			mess = "";
 		}
-		mess=mess + "\n";
+		mess=mess + Constantes.END_LINE;
 		this.dataOut.write(mess.getBytes());
 		this.dataOut.flush();
+	}
+
+	private String processType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private String processSyst() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private String processPort() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public String processQuit() {
@@ -109,24 +131,24 @@ public class FtpRequest implements Runnable {
 	public String processUser(final String user) {
 		if (this.mapUserPwd.containsKey(user)) {
 			this.user = user;
-			return "331 User name okay, need password";// User name okay, need
+			return Constantes.RESPONSE_331_USER;// User name okay, need
 		}
-		return "530 Bad username";
+		return Constantes.RESPONSE_530_USER;
 	}
 
 	public String processPass(final String pass) {
 		if (this.isAuthenticated) {
-			return "230 Already logged in"; // Peut être une bétise (dépend si
+			return Constantes.RESPONSE_230_PASS; // Peut être une bétise (dépend si
 											// on accepte les connexions
 											// successives ou pas) : Already
 											// logged in.
 		}
 		if ((this.user == null) || ("".equals(this.user.trim()))) {
-			return "530 Not logged in"; // Not logged in
+			return Constantes.RESPONSE_530_PASS; // Not logged in
 		}
 		if (this.mapUserPwd.get(this.user).equals(pass)) {
 			this.isAuthenticated = true;
-			return "257 \"" + this.folderPath + "\"";
+			return Constantes.RESPONSE_257_PASS_BEGIN + this.folderPath + Constantes.RESPONSE_257_PASS_END;
 		}
 		return "530 Not logged in"; // Not logged in
 	}
