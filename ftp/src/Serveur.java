@@ -27,7 +27,7 @@ public class Serveur extends Thread {
 			System.out.println("Waiting client ...");
 			try {
 				this.socket = this.serveurSocket.accept();
-				new Thread(new FtpRequest(this.socket,".")).start();
+				new Thread(new FtpRequest(this.socket,"C:\\Users\\Antoine\\CAR\\ftp\\serveur")).start();//essai de mettre un meilleur chemin
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
