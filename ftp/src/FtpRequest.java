@@ -21,7 +21,7 @@ import java.util.Map;
 public class FtpRequest implements Runnable {
 
 	/** The socket needed to stay connect to the client **/
-	private Socket socket;
+	private final Socket socket;
 
 	/** The username of the current user **/
 	private String user;
@@ -33,13 +33,13 @@ public class FtpRequest implements Runnable {
 	private Socket communicationSocket;
 
 	/** The address of connected client **/
-	private InetAddress clientAddr;
+	private final InetAddress clientAddr;
 
 	/** Stream containing the incomming data **/
-	private InputStream dataIn;
+	private final InputStream dataIn;
 
 	/** Stream where FtpRequest will write the data to send **/
-	private OutputStream dataOut;
+	private final OutputStream dataOut;
 
 	/** Define if the clientIsStillConnected **/
 	private boolean clientIsConnected;
@@ -48,7 +48,7 @@ public class FtpRequest implements Runnable {
 	private Map<String, String> mapUserPwd;
 
 	/** Default directory on log **/
-	private String defaultDir;
+	private final String defaultDir;
 
 	/** The current directory **/
 	private String currentDir;
@@ -60,11 +60,7 @@ public class FtpRequest implements Runnable {
 	private boolean isPassive;
 	
 	/** Passive socket for passive connection **/
-	private ServerSocket passiveSocket; 
-
-	private static final String fichierUserPwd = "./userPwd.txt"; // fichier
-																	// hyper
-																	// sécurisé
+	private final ServerSocket passiveSocket; 
 
 	public FtpRequest(final Socket socket, final String folder) throws IOException {
 		this.socket = socket;
@@ -80,7 +76,7 @@ public class FtpRequest implements Runnable {
 		// par defaut on est en active, attendre le PASV (pas implementer pour l'instant) pour passer en passive (pas bien gérer pour l'instant
 		this.isPassive = false;
 		this.passiveSocket = new ServerSocket(0);
-		mapUserPwdInitialisation();
+		this.mapUserPwdInitialisation();
 	}
 
 	private void mapUserPwdInitialisation() {
@@ -94,18 +90,18 @@ public class FtpRequest implements Runnable {
 		return cmd.replaceAll("\n|\r", "");
 	}
 
+	@Override
 	public void run() {
-		final byte inMess[] = new byte[2048];
 		try {
 			this.sendMessage(Constantes.RESPONSE_220_WELCOME);
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
-		final BufferedReader buffRead = new BufferedReader(new InputStreamReader(dataIn));
+		final BufferedReader buffRead = new BufferedReader(new InputStreamReader(this.dataIn));
 		while (this.clientIsConnected) {
 			try {
-				String message = buffRead.readLine();
-				processRequest(message);
+				final String message = buffRead.readLine();
+				this.processRequest(message);
 			} catch (final IOException e) {
 				e.printStackTrace();
 			}
@@ -151,26 +147,26 @@ public class FtpRequest implements Runnable {
 			return;
 		}
 		System.out.println("Demande : " + string);
-		String[] req = string.split(" ", 2);
+		final String[] req = string.split(" ", 2);
 		String mess;
-		String request = req[0].toUpperCase();
-		if (Constantes.CMD_USER.equals(request) && req.length == 2) {
+		final String request = req[0].toUpperCase();
+		if (Constantes.CMD_USER.equals(request) && (req.length == 2)) {
 			mess = this.processUser(this.cleanCmd(req[1]));
-		} else if (Constantes.CMD_PASS.equals(request) && req.length == 2) {
+		} else if (Constantes.CMD_PASS.equals(request) && (req.length == 2)) {
 			mess = this.processPass(this.cleanCmd(req[1]));
-		} else if (Constantes.CMD_RETR.equals(request) && req.length == 2) {
+		} else if (Constantes.CMD_RETR.equals(request) && (req.length == 2)) {
 			mess = this.processRetr(this.cleanCmd(req[1]));
-		} else if (Constantes.CMD_STOR.equals(request) && req.length == 2) {
+		} else if (Constantes.CMD_STOR.equals(request) && (req.length == 2)) {
 			mess = this.processStor(this.cleanCmd(req[1]));
 		} else if (Constantes.CMD_LIST.equals(request)) {
 			mess = this.processList();
 		} else if (Constantes.CMD_QUIT.equals(request)) {
 			mess = this.processQuit();
-		} else if (Constantes.CMD_PORT.equals(request) && req.length == 2) {
+		} else if (Constantes.CMD_PORT.equals(request) && (req.length == 2)) {
 			mess = this.processPort(this.cleanCmd(req[1]));
 		} else if (Constantes.CMD_SYST.equals(request)) {
 			mess = this.processSyst();
-		} else if (Constantes.CMD_TYPE.equals(request) && req.length == 2) {
+		} else if (Constantes.CMD_TYPE.equals(request) && (req.length == 2)) {
 			mess = this.processType(this.cleanCmd(req[1]));
 		} else if (Constantes.CMD_FEAT.equals(request)) { // Commande envoyé par
 															// Filezilla
@@ -178,13 +174,13 @@ public class FtpRequest implements Runnable {
 		} else if (Constantes.CMD_EPSV.equals(request)) { // Commande envoyé par
 															// Filezilla
 			mess = this.processEpsv();
-		} else if (Constantes.CMD_EPRT.equals(request) && req.length == 2) { // Commande envoyé par
+		} else if (Constantes.CMD_EPRT.equals(request) && (req.length == 2)) { // Commande envoyé par
 															// Filezilla
 			mess = this.processEprt(this.cleanCmd(req[1]));
 		} else if (Constantes.CMD_PWD.equals(request)) {
 			mess = this.processPwd();
 		} 
-		else if (Constantes.CMD_CWD.equals(request)  && req.length == 2) {
+		else if (Constantes.CMD_CWD.equals(request)  && (req.length == 2)) {
 			mess = this.processCwd(this.cleanCmd(req[1]));
 		}  else if (Constantes.CMD_CDUP.equals(request)) {
 			mess = this.processCdup();
@@ -195,8 +191,10 @@ public class FtpRequest implements Runnable {
 	}
 
 	private String processCdup() {
-		if (!isAuthenticated) return Constantes.ERREUR_530;
-		int lastInd = this.currentDir.lastIndexOf("\\");
+		if (!this.isAuthenticated) {
+			return Constantes.ERREUR_530;
+		}
+		final int lastInd = this.currentDir.lastIndexOf("\\");
 		if (lastInd != -1) {
 			this.currentDir = this.currentDir.substring(0, lastInd);
 		}
@@ -205,14 +203,18 @@ public class FtpRequest implements Runnable {
 	}
 
 	private String processCwd(final String dir) {
-		if (!isAuthenticated) return Constantes.ERREUR_530;
+		if (!this.isAuthenticated) {
+			return Constantes.ERREUR_530;
+		}
 		this.currentDir = dir;
 		return Constantes.RESPONSE_250_CWD;
 	}
 
 	private String processEprt(final String fullAdresse) {
-		if (!isAuthenticated) return Constantes.ERREUR_530;
-		String[] tmp = fullAdresse.split("[|]");// | est le OU de regex, il pose problème dans ce cas spécifique
+		if (!this.isAuthenticated) {
+			return Constantes.ERREUR_530;
+		}
+		final String[] tmp = fullAdresse.split("[|]");// | est le OU de regex, il pose problème dans ce cas spécifique
 		this.isPassive = false;
 		this.communicationPort = Integer.parseInt(tmp[3]);// * 256 + Integer.parseInt(tmp[5]);
 		System.out.println("Le client veut qu'on parle sur " + this.communicationPort);
@@ -224,7 +226,9 @@ public class FtpRequest implements Runnable {
 	}
 
 	private String processPwd() {
-		if (!isAuthenticated) return Constantes.ERREUR_530;
+		if (!this.isAuthenticated) {
+			return Constantes.ERREUR_530;
+		}
 		return Constantes.RESPONSE_257_PWD + this.currentDir;
 	}
 
@@ -242,9 +246,11 @@ public class FtpRequest implements Runnable {
 	}
 
 	private String processPort(final String fullAdresse) {
-		if (!isAuthenticated) return Constantes.ERREUR_530;
-		String[] tmp = fullAdresse.split(",");
-		this.communicationPort = Integer.parseInt(tmp[4]) * 256 + Integer.parseInt(tmp[5]);
+		if (!this.isAuthenticated) {
+			return Constantes.ERREUR_530;
+		}
+		final String[] tmp = fullAdresse.split(",");
+		this.communicationPort = (Integer.parseInt(tmp[4]) * 256) + Integer.parseInt(tmp[5]);
 		System.out.println("Le client veut qu'on parle sur " + this.communicationPort);
 		return Constantes.RESPONSE_200_PORT;
 	}
@@ -256,7 +262,9 @@ public class FtpRequest implements Runnable {
 	}
 
 	public String processList() {
-		if (!isAuthenticated) return Constantes.ERREUR_530;
+		if (!this.isAuthenticated) {
+			return Constantes.ERREUR_530;
+		}
 		try {
 			this.sendMessage(Constantes.RESPONSE_150_LIST);
 		} catch (final IOException e2) {
@@ -264,9 +272,7 @@ public class FtpRequest implements Runnable {
 		}
 
 		String answer = "";
-		String str = null;
-
-			final File dir = new File(this.currentDir);
+		final File dir = new File(this.currentDir);
 			final File filesList[] = dir.listFiles();
 			String currentFile = "";
 			
@@ -281,14 +287,14 @@ public class FtpRequest implements Runnable {
 						type=1;
 						permstr= "-rw-rw-rw-";
 					}
-					Date date=new Date(file.lastModified());
-			        SimpleDateFormat df2 = new SimpleDateFormat("yyyy MMM dd");//("dd/MM/yy");
-			        String dateText = df2.format(date);
+					final Date date=new Date(file.lastModified());
+			        final SimpleDateFormat df2 = new SimpleDateFormat("yyyy MMM dd");
+			        final String dateText = df2.format(date);
 					
 					String username;
 					try {
 						username = java.nio.file.Files.getOwner(file.toPath()).toString();
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						// TODO Auto-generated catch block
 						username="unknowUser";
 					}
@@ -347,7 +353,9 @@ public class FtpRequest implements Runnable {
 	}
 
 	public String processRetr(final String string) {
-		if (!isAuthenticated) return Constantes.ERREUR_530;
+		if (!this.isAuthenticated) {
+			return Constantes.ERREUR_530;
+		}
 		try {
 			this.sendMessage(Constantes.RESPONSE_150_LIST);
 		} catch (final IOException e2) {
@@ -358,12 +366,10 @@ public class FtpRequest implements Runnable {
 
 		OutputStream os = null;
 		DataOutputStream dos = null;
-		InputStream is = null;
-
 		try {
 			os = this.communicationSocket.getOutputStream();
 			System.out.print("path retr"+this.currentDir+"/"+string);
-			Path target= Paths.get(this.currentDir+"/"+string);
+			final Path target= Paths.get(this.currentDir+"/"+string);
 			Files.copy(target, os);
 			dos = new DataOutputStream(os);
 			dos.writeBytes( Constantes.RESPONSE_226_RETR+ Constantes.END_LINE);
@@ -377,7 +383,9 @@ public class FtpRequest implements Runnable {
 	}
 
 	public String processStor(final String string) {
-		if (!isAuthenticated) return Constantes.ERREUR_530;
+		if (!this.isAuthenticated) {
+			return Constantes.ERREUR_530;
+		}
 		try {
 			this.sendMessage(Constantes.RESPONSE_150_LIST);
 		} catch (final IOException e2) {
@@ -393,7 +401,7 @@ public class FtpRequest implements Runnable {
 		try {
 			is = this.communicationSocket.getInputStream();
 			System.out.print("path stor"+this.currentDir+"/"+string);
-			Path target= Paths.get(this.currentDir+"/"+string);
+			final Path target= Paths.get(this.currentDir+"/"+string);
 			Files.copy(is,target, StandardCopyOption.REPLACE_EXISTING);
 			os = this.communicationSocket.getOutputStream();
 			dos = new DataOutputStream(os);

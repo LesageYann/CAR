@@ -9,12 +9,12 @@ public class Serveur extends Thread {
 	private String initialDir;
 
 	/** Initialization of Serveur with a specific port **/
-	public void initialization(int port,String dir) {
+	public void initialization(final int port,final String dir) {
 		this.initialDir=dir;
 		try {
 			this.serveurSocket = new ServerSocket(port);
 			System.out.println("Initialization OK on: " + port);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -30,20 +30,20 @@ public class Serveur extends Thread {
 			try {
 				this.socket = this.serveurSocket.accept();
 				new Thread(new FtpRequest(this.socket,this.initialDir)).start();//essai de mettre un meilleur chemin
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				System.out.println(e.getMessage());
 			}
 		}
 	}
 	
-	public static final void main(String[] args){
-		Serveur s = new Serveur();
+	public static final void main(final String[] args){
+		final Serveur s = new Serveur();
 		s.initialization(1666, args[0]);
 		s.run();
 	}
 
 	public ServerSocket getServeurSocket() {
-		return serveurSocket;
+		return this.serveurSocket;
 	}
 
 	public void setServeurSocket(final ServerSocket serveurSocket) {
@@ -51,7 +51,7 @@ public class Serveur extends Thread {
 	}
 
 	public Socket getSocket() {
-		return socket;
+		return this.socket;
 	}
 
 	public void setSocket(final Socket socket) {
