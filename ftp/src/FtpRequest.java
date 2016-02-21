@@ -225,6 +225,7 @@ public class FtpRequest implements Runnable {
 	public String processQuit() throws IOException {
 		this.clientIsConnected = false;
 		return Constantes.RESPONSE_231_QUIT;
+		//on devrait envoyer le message d'ici et détruire le thread non ?
 	}
 
 	public String processList() {
@@ -318,11 +319,15 @@ public class FtpRequest implements Runnable {
 
 	public String processRetr(final String string) {
 		// TODO Auto-generated method stub
+		//Files.copy(Path source, OutputStream out)
 		return "";
 	}
 
 	public String processStor(final String string) {
 		// TODO Auto-generated method stub
+		//Files.copy(InputStream in, Path target)
+		///*option pour remplace un fichier si existant on est sensé demander a l'utilisateur si on supprime donc bon...
+		//Files.copy(InputStream in, Path target, StandardCopyOption.REPLACE_EXISTING)
 		return "";
 	}
 

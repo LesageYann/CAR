@@ -76,7 +76,7 @@ public class TestFtpRequest extends TestCase {
 	
 	@Test
 	public void testProcessUserRenvoie331(){
-		final String rep = ftp.processUser("antoine");
+		final String rep = ftp.processUser("petita");
 		assertTrue(rep.startsWith("331"));		
 	}
 	
