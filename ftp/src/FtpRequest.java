@@ -275,14 +275,14 @@ public class FtpRequest implements Runnable {
 			for (final File file : filesList) {
 				if (!file.isHidden()) {
 					int type=6;
-					String permstr="drw-rw-rw-."; 
+					String permstr="drw-rw-rw-"; 
 
 					if (file.isFile()) {
 						type=1;
-						permstr= "-rw-rw-rw-.";
+						permstr= "-rw-rw-rw-";
 					}
 					Date date=new Date(file.lastModified());
-			        SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy");
+			        SimpleDateFormat df2 = new SimpleDateFormat("yyyy MMM dd");//("dd/MM/yy");
 			        String dateText = df2.format(date);
 					
 					String username;
@@ -292,8 +292,8 @@ public class FtpRequest implements Runnable {
 						// TODO Auto-generated catch block
 						username="unknowUser";
 					}
-					currentFile = String.format( "%s   %d %-10s %-10s %10d  %s %s\r\n",
-						    permstr, type,username, username,
+					currentFile = String.format( "%s %d %-10s  %10d %s %s\r\n",
+						    permstr, type,username, 
 						    file.length(), dateText,
 						    file.getName());
 					
