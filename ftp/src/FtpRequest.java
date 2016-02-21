@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +12,7 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -394,7 +394,7 @@ public class FtpRequest implements Runnable {
 			is = this.communicationSocket.getInputStream();
 			System.out.print("path stor"+this.currentDir+"/"+string);
 			Path target= Paths.get(this.currentDir+"/"+string);
-			Files.copy(is,target);
+			Files.copy(is,target, StandardCopyOption.REPLACE_EXISTING);
 			os = this.communicationSocket.getOutputStream();
 			dos = new DataOutputStream(os);
 			dos.writeBytes( Constantes.RESPONSE_226_STOR+ Constantes.END_LINE);
