@@ -6,9 +6,11 @@ public class Serveur extends Thread {
 
 	private ServerSocket serveurSocket;
 	private Socket socket = new Socket();
+	private String initialDir;
 
 	/** Initialization of Serveur with a specific port **/
-	public void initialization(int port) {
+	public void initialization(int port,String dir) {
+		this.initialDir=dir;
 		try {
 			this.serveurSocket = new ServerSocket(port);
 			System.out.println("Initialization OK on: " + port);
@@ -27,7 +29,7 @@ public class Serveur extends Thread {
 			System.out.println("Waiting client ...");
 			try {
 				this.socket = this.serveurSocket.accept();
-				new Thread(new FtpRequest(this.socket,"C:\\Users\\Antoine\\CAR\\ftp\\serveur")).start();//essai de mettre un meilleur chemin
+				new Thread(new FtpRequest(this.socket,this.initialDir)).start();//essai de mettre un meilleur chemin
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
@@ -36,7 +38,7 @@ public class Serveur extends Thread {
 	
 	public static final void main(String[] args){
 		Serveur s = new Serveur();
-		s.initialization(1666);
+		s.initialization(1666, args[0]);
 		s.run();
 	}
 

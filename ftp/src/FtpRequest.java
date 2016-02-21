@@ -9,6 +9,8 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,7 +73,8 @@ public class FtpRequest implements Runnable {
 		this.defaultDir = folder;
 		this.currentDir = folder;
 		this.clientIsConnected = true;
-		this.isPassive = true;
+		// par defaut on est en active, attendre le PASV (pas implementer pour l'instant) pour passer en passive (pas bien gérer pour l'instant
+		this.isPassive = false;
 		this.passiveSocket = new ServerSocket(0);
 		mapUserPwdInitialisation();
 	}
@@ -239,32 +242,48 @@ public class FtpRequest implements Runnable {
 		String answer = "";
 		String str = null;
 
-
 			final File dir = new File(this.currentDir);
 			final File filesList[] = dir.listFiles();
 			String currentFile = "";
+			
+			// pour le format de list :http://stackoverflow.com/questions/2443007/ftp-list-format
 
 			for (final File file : filesList) {
 				if (!file.isHidden()) {
+					int type=6;
+					String permstr="drw-rw-rw-."; 
 
 					if (file.isFile()) {
-						currentFile = "+s" + file.length() + ",m" + file.lastModified() / 1000 + "\011" + file.getName()
-								+ Constantes.END_LINE;
+						type=1;
+						permstr= "-rw-rw-rw-.";
 					}
-					else if (file.isDirectory()) {
-						currentFile = "+/,m" + file.lastModified()/1000+ ",\011" + file.getName() + Constantes.END_LINE;
+					Date date=new Date(file.lastModified());
+			        SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy");
+			        String dateText = df2.format(date);
+					
+					String username;
+					try {
+						username = java.nio.file.Files.getOwner(file.toPath()).toString();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						username="unknowUser";
 					}
+					currentFile = String.format( "%s   %d %-10s %-10s %10d  %s %s\r\n",
+						    permstr, type,username, username,
+						    file.length(), dateText,
+						    file.getName());
 					
 					answer += currentFile + Constantes.END_LINE;
 				}
 			}
 
-
 		try {
 			
-			if(this.isPassive)
+			if(this.isPassive){
+				System.out.println("this is passive");
 				this.communicationSocket= this.passiveSocket.accept();
-			else {
+			}else {
+				System.out.println("this is not passive");
 				this.communicationSocket = new Socket();
 				this.communicationSocket.connect(new InetSocketAddress(this.clientAddr, this.communicationPort));
 			}
