@@ -112,7 +112,7 @@ public class FtpRequest implements Runnable {
 
 	}
 
-	private void sendMessage(String message) throws IOException {
+	void sendMessage(String message) throws IOException {
 		message += Constantes.END_LINE;
 		this.dataOut.write(message.getBytes());
 		this.dataOut.flush();
@@ -162,7 +162,7 @@ public class FtpRequest implements Runnable {
 		}  else if (Constantes.CMD_CDUP.equals(request)) {
 			mess = this.processCdup();
 		} else {
-			mess = "";
+			mess = "500 unkown command";
 		}
 		this.sendMessage(mess);
 	}

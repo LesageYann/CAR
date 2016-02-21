@@ -1,4 +1,8 @@
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -19,6 +23,10 @@ public class TestFtpRequest extends TestCase {
 	@Before
 	public void initialize() throws IOException {
 		sock = Mockito.mock(Socket.class);
+		InputStream inpStream = new ByteArrayInputStream("".getBytes());
+		OutputStream outStream = new ByteArrayOutputStream();
+		Mockito.when(sock.getInputStream()).thenReturn(inpStream);
+		Mockito.when(sock.getOutputStream()).thenReturn(outStream);
 		ftp = Mockito.spy(new FtpRequest(sock,""));
 	}
 	
@@ -61,7 +69,7 @@ public class TestFtpRequest extends TestCase {
 	@Test
 	public void testProcessRequestUnkownCMDError() throws IOException {
 		ftp.processRequest("Hibou"); 
-		
+		Mockito.verify(ftp).sendMessage("500 unkown command");
 		// erreur 500
 		;
 	}
