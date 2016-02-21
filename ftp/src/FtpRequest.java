@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +10,9 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -120,6 +124,26 @@ public class FtpRequest implements Runnable {
 		this.dataOut.write(message.getBytes());
 		this.dataOut.flush();
 
+	}
+	
+	void getDataChannel(){
+		try {
+			
+			if(this.isPassive){
+				System.out.println("this is passive");
+				this.communicationSocket= this.passiveSocket.accept();
+			}else {
+				System.out.println("this is not passive");
+				this.communicationSocket = new Socket();
+				this.communicationSocket.connect(new InetSocketAddress(this.clientAddr, this.communicationPort));
+			}
+			
+
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
+
+		
 	}
 
 	public void processRequest(final String string) throws IOException {
@@ -277,22 +301,8 @@ public class FtpRequest implements Runnable {
 				}
 			}
 
-		try {
-			
-			if(this.isPassive){
-				System.out.println("this is passive");
-				this.communicationSocket= this.passiveSocket.accept();
-			}else {
-				System.out.println("this is not passive");
-				this.communicationSocket = new Socket();
-				this.communicationSocket.connect(new InetSocketAddress(this.clientAddr, this.communicationPort));
-			}
-			
-
-		} catch (final IOException e) {
-			e.printStackTrace();
-		}
-
+		this.getDataChannel();
+		
 		OutputStream os = null;
 		DataOutputStream dos = null;
 
@@ -306,7 +316,7 @@ public class FtpRequest implements Runnable {
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
-
+		
 		return Constantes.RESPONSE_226_LIST;
 	}
 
@@ -337,17 +347,64 @@ public class FtpRequest implements Runnable {
 	}
 
 	public String processRetr(final String string) {
-		// TODO Auto-generated method stub
-		//Files.copy(Path source, OutputStream out)
-		return "";
+		if (!isAuthenticated) return Constantes.ERREUR_530;
+		try {
+			this.sendMessage(Constantes.RESPONSE_150_LIST);
+		} catch (final IOException e2) {
+			e2.printStackTrace();
+		}
+
+		this.getDataChannel();
+
+		OutputStream os = null;
+		DataOutputStream dos = null;
+		InputStream is = null;
+
+		try {
+			os = this.communicationSocket.getOutputStream();
+			System.out.print("path retr"+this.currentDir+"/"+string);
+			Path target= Paths.get(this.currentDir+"/"+string);
+			Files.copy(target, os);
+			dos = new DataOutputStream(os);
+			dos.writeBytes( Constantes.RESPONSE_226_RETR+ Constantes.END_LINE);
+			this.communicationSocket.close();
+			this.communicationSocket = null;
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
+
+		return Constantes.RESPONSE_226_RETR;
 	}
 
 	public String processStor(final String string) {
-		// TODO Auto-generated method stub
-		//Files.copy(InputStream in, Path target)
-		///*option pour remplace un fichier si existant on est sensé demander a l'utilisateur si on supprime donc bon...
-		//Files.copy(InputStream in, Path target, StandardCopyOption.REPLACE_EXISTING)
-		return "";
+		if (!isAuthenticated) return Constantes.ERREUR_530;
+		try {
+			this.sendMessage(Constantes.RESPONSE_150_LIST);
+		} catch (final IOException e2) {
+			e2.printStackTrace();
+		}
+
+		this.getDataChannel();
+
+		OutputStream os = null;
+		DataOutputStream dos = null;
+		InputStream is = null;
+
+		try {
+			is = this.communicationSocket.getInputStream();
+			System.out.print("path stor"+this.currentDir+"/"+string);
+			Path target= Paths.get(this.currentDir+"/"+string);
+			Files.copy(is,target);
+			os = this.communicationSocket.getOutputStream();
+			dos = new DataOutputStream(os);
+			dos.writeBytes( Constantes.RESPONSE_226_STOR+ Constantes.END_LINE);
+			this.communicationSocket.close();
+			this.communicationSocket = null;
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
+
+		return Constantes.RESPONSE_226_STOR;
 	}
 
 }

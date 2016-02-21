@@ -38,6 +38,8 @@ public class Constantes {
 	public static final String RESPONSE_226_LIST = "226 LIST Done";
 	public static final String RESPONSE_200_CDUP = "200 OK";
 	public static final String RESPONSE_250_CWD = "250 OK";
+	public static final String RESPONSE_226_RETR = "226 Transfer complete.";
+	public static final String RESPONSE_226_STOR = "226 Transfer complete.";
 	public static final String ERREUR_530 = "530 Error : Not authenticated";
 	
 	public static final String END_LINE = "\n";
