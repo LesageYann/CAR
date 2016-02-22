@@ -1,6 +1,14 @@
 package nativeCMD;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
+import Constantes.Constantes;
 
 public class MapCMD implements NativeCMD {
 	/** The username of the current user **/
@@ -8,16 +16,26 @@ public class MapCMD implements NativeCMD {
 	
 	/** Give if the user is authenticated**/
 	private boolean isAuthenticated;
-	/** Temporary solution for the connection **/
+	/**  for the connection **/
 	private Map<String,String> mapUserPwd;
 
-	private static final String fichierUserPwd = "./userPwd.txt"; // fichier
-																	// hyper
-																	// sécurisé
-	
-	public MapCMD(){
+	private String defaultDir;
+
+	private String currentDir;
+
+	public MapCMD(String folder){
 		this.user = "";
 		this.isAuthenticated = false;
+		this.mapUserPwdInitialisation();
+		this.defaultDir = folder;
+		this.currentDir = folder;
+	}
+	
+	private void mapUserPwdInitialisation() {
+		this.mapUserPwd = new HashMap<String, String>();
+		this.mapUserPwd.put("test", "test");
+		this.mapUserPwd.put("petita", "mdppetita");
+		this.mapUserPwd.put("lesagey", "mdpleasagey");
 	}
 	
 	public boolean userExist(String user){
@@ -37,6 +55,83 @@ public class MapCMD implements NativeCMD {
 			return true;
 		}
 		return false;
+	}
+
+	public Path getFilePath(String name) throws BadOrderException {
+		if (!this.isAuthenticated) {
+			throw new BadOrderException();
+		}
+		return Paths.get(this.currentDir+"/"+name);
+	}
+
+	
+	public void directoryUp() throws BadOrderException {
+		if (!this.isAuthenticated) {
+			throw new BadOrderException();
+		}
+		final int lastInd = this.currentDir.lastIndexOf("\\");
+		if (lastInd != -1) {
+			this.currentDir = this.currentDir.substring(0, lastInd);
+		}
+		System.out.println(this.currentDir);
+	}
+
+	public void changeDirectory(String dir) throws BadOrderException {
+		if (!this.isAuthenticated) {
+			throw new BadOrderException();
+		}
+		this.currentDir = dir;
+	}
+
+	public String currentDir() throws BadOrderException {
+		if (!this.isAuthenticated) {
+			throw new BadOrderException();
+		}
+		return this.currentDir;
+	}
+
+	public String getFilesList() {
+		String answer = "";
+		final File dir = new File(this.currentDir);
+		final File filesList[] = dir.listFiles();
+		String currentFile = "";
+			
+		// pour le format de list :http://stackoverflow.com/questions/2443007/ftp-list-format
+
+		for (final File file : filesList) {
+			if (!file.isHidden()) {
+				int type=6;
+				String permstr="drw-rw-rw-"; 
+
+				if (file.isFile()) {
+					type=1;
+					permstr= "-rw-rw-rw-";
+				}
+				final Date date=new Date(file.lastModified());
+			    final SimpleDateFormat df2 = new SimpleDateFormat("yyyy MMM dd");
+			    final String dateText = df2.format(date);
+				
+				String username;
+				try {
+					username = java.nio.file.Files.getOwner(file.toPath()).toString();
+				} catch (final IOException e) {
+					// TODO Auto-generated catch block
+					username="unknowUser";
+				}
+				currentFile = String.format( "%s %d %-10s  %10d %s %s\r\n",
+					    permstr, type,username, 
+					    file.length(), dateText,
+					    file.getName());
+					
+				answer += currentFile + Constantes.END_LINE;
+			}
+		}
+		return answer;
+	}
+
+	@Override
+	public boolean isAuthenticated() {
+		return this.isAuthenticated;
 	}
 
 }

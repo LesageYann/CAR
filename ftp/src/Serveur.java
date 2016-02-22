@@ -2,6 +2,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import nativeCMD.MapCMD;
+
 public class Serveur extends Thread {
 
 	private ServerSocket serveurSocket;
@@ -29,7 +31,7 @@ public class Serveur extends Thread {
 			System.out.println("Waiting client ...");
 			try {
 				this.socket = this.serveurSocket.accept();
-				new Thread(new FtpRequest(this.socket,this.initialDir)).start();//essai de mettre un meilleur chemin
+				new Thread(new FtpRequest(this.socket,new MapCMD(this.initialDir))).start();//essai de mettre un meilleur chemin
 			} catch (final IOException e) {
 				System.out.println(e.getMessage());
 			}

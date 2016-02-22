@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import junit.framework.TestCase;
+import nativeCMD.BadOrderException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -81,7 +82,7 @@ public class TestFtpRequest extends TestCase {
 	}
 	
 	@Test
-	public void testProcessPassRenvoie530SiUtilisateurNonInitialise(){
+	public void testProcessPassRenvoie530SiUtilisateurNonInitialise() throws BadOrderException{
 		final String rep = ftp.processPass("truc");
 		assertTrue(rep.startsWith("530"));		
 	}
