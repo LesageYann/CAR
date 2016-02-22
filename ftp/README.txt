@@ -32,6 +32,8 @@ III) Les commandes
 
 	PASS <Mot de passe de l'utilisateur> : Permet de finaliser l'authentification de l'utilisateur, cette action est nécessaire avant toute autres actions sur le serveur
 
+	QUIT : Indique que le client souhaite terminer la connexion avec le serveur
+
 	Une fois Authentifié :
 
 		RETR <nom du fichier> : Récupère le fichier distant qui porte le nom du fichier dans le répertoire courant distant
@@ -39,8 +41,6 @@ III) Les commandes
 		STOR <nom du fichier> : Dépose le fichier local du répertoire courant qui porte le nom du fichier dans le répertoire distant
 
 		LIST : Demande au serveur de donner une description des fichiers et dossiers du répertoire courant distant
-
-		QUIT : Indique que le client souhaite terminer la connexion avec le serveur
 
 		PWD : Demande au serveur de donner la valeur du répertoire courant distant
 
@@ -53,14 +53,24 @@ IV) Architecture
 
 	1) Les classes 
 
-		Serveur : La classe principale de l'application, elle contient le main. C'est cette dernière qui va tourner en boucle en attendant que des clients se connectent. A chaque nouvelle connexion la classe créé un nouveau thread : FTPRequest
+		Serveur : La classe principale de l'application, elle contient le main. 
+			C'est cette dernière qui va tourner en boucle en attendant que des clients se connectent. A chaque nouvelle connexion la classe créé un nouveau thread : FTPRequest
 
-		FTPRequest : La classe gérant l'ensemble des commandes citer ci-dessus. Elle garde connaissance dans quel état est le client afin de ne pas lui permettre d'utiliser des commandes qui lui serait interdit.
+		FTPRequest : La classe gérant l'ensemble des commandes citer ci-dessus. 
 			Elle gère aussi les connexions supplémentaires si nécessaire (mode passif/ actif) pour les commandes STOR, RETR et LIST.
+		
+		NativeCMD : Classe abstraite nous permettant de poser les bases pour avoir d'autres classes gérant les intérogations au system ( OS ou logiciel).
+			Les classes l'implementant gardent connaissance dans quel état est le client afin de ne pas lui permettre d'utiliser des commandes qui lui serait interdit. Elles soulèront des erreurs le cas échéant.
+	
+		MapCMD : Classe héritant de NativeCMD. Implémente un système d'authentification hardcoder. ne dépend pas l'OS
+
+		Linux CMD : Classe héritant de NativeCMD. Implémente des appels système à linux. Compatible uniquement linux. 
+			Elle n'est pas complète car il s'agit surtout d'un POC pour montrer que notre serveur ftp est déclinable sur différent OS ou système logiciel.
 
 	2 ) Gestion des erreurs 
 
 		L'ensemble des exceptions déclenchées, que ce soit par l'ouverture de socket, ou lié à l'écriture dans le socket et la lecture dans le socket, ont été capturées pour envoyer des messages d'erreur dans les logs du serveur.
+		Les erreurs lié aux commandes utilisateurs sont capturés dans FTPRequest et envoyés au client sous forme de message "5XX message d'erreur"
 
 	3) Tests
 
