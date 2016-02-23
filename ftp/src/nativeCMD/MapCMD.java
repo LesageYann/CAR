@@ -61,7 +61,11 @@ public class MapCMD implements NativeCMD {
 		if (!this.isAuthenticated) {
 			throw new BadOrderException();
 		}
-		return Paths.get(this.currentDir+"/"+name);
+		if(!name.startsWith("/")){
+			name= this.currentDir+"/"+name;
+		}
+		System.out.println(name);
+		return Paths.get(name);
 	}
 
 	
@@ -69,18 +73,27 @@ public class MapCMD implements NativeCMD {
 		if (!this.isAuthenticated) {
 			throw new BadOrderException();
 		}
-		final int lastInd = this.currentDir.lastIndexOf("\\");
-		if (lastInd != -1) {
-			this.currentDir = this.currentDir.substring(0, lastInd);
-		}
-		System.out.println(this.currentDir);
+		this.currentDir=new File(this.currentDir).getParent();
 	}
 
-	public void changeDirectory(String dir) throws BadOrderException {
+	public void changeDirectory(String dir) throws BadOrderException, NotDirException {
 		if (!this.isAuthenticated) {
 			throw new BadOrderException();
 		}
-		this.currentDir = dir;
+		System.out.println("avant startwith "+dir);
+		System.out.println(dir.startsWith("/"));
+		if(!dir.startsWith("/")){
+			dir= this.currentDir+"/"+dir;
+		}
+		System.out.println("apres startwith "+dir);
+		System.out.println(dir);
+		System.out.println(dir);
+		final File directory = new File(dir);
+		System.out.println(directory.isDirectory());
+		if(!directory.isDirectory()){
+			throw new NotDirException();
+		}
+		this.currentDir =dir;
 	}
 
 	public String currentDir() throws BadOrderException {
@@ -98,6 +111,7 @@ public class MapCMD implements NativeCMD {
 			
 		// pour le format de list :http://stackoverflow.com/questions/2443007/ftp-list-format
 
+		System.out.println(filesList);
 		for (final File file : filesList) {
 			if (!file.isHidden()) {
 				int type=6;

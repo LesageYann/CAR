@@ -43,6 +43,10 @@ public class Constantes {
 	public static final String RESPONSE_226_RETR = "226 Transfer complete.";
 	public static final String RESPONSE_226_STOR = "226 Transfer complete.";
 	public static final String ERREUR_530 = "530 Error : Not authenticated";
+	public static final String ERREUR_500_implent = "500 Error : Not implemented command";
+	public static final String ERREUR_500_dataChan = "500 Error : Fail to open a data channel";
+	public static final String ERREUR_404 = "404 Error : File not found";
+	public static final String ERREUR_400_NotDir = "400 Error : Not a directory";
 	
 	public static final String END_LINE = "\n";
 

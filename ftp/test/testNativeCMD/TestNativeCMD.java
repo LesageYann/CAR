@@ -18,6 +18,7 @@ import static org.mockito.AdditionalMatchers.*;
 
 import nativeCMD.BadOrderException;
 import nativeCMD.NativeCMD;
+import nativeCMD.NotImplementedException;
 
 
 
@@ -62,7 +63,7 @@ public abstract class TestNativeCMD {
 	}
 	
 	@Test
-	public void testUserExistSuccess() throws IOException {
+	public void testUserExistSuccess() throws IOException, NotImplementedException {
 		Process p=Mockito.mock(Process.class);
 		mockProcess(p,userCMDOutSucces,userCMDErrSucces);
 		Mockito.when(run.exec(aryEq(userCMD))).thenReturn(p);
@@ -70,7 +71,7 @@ public abstract class TestNativeCMD {
 	}
 
 	@Test
-	public void testUserExistFail() throws IOException {
+	public void testUserExistFail() throws IOException, NotImplementedException {
 		Process p=Mockito.mock(Process.class);
 		mockProcess(p,userCMDOutFail, userCMDErrFail);
 		Mockito.when(run.exec(aryEq(userCMD))).thenReturn(p);
@@ -79,7 +80,7 @@ public abstract class TestNativeCMD {
 	
 	
 	@Test
-	public void testUserPasswordSucces() throws IOException, BadOrderException {
+	public void testUserPasswordSucces() throws IOException, BadOrderException, NotImplementedException {
 		Process p=Mockito.mock(Process.class);
 		mockProcess(p,userCMDOutSucces,userCMDErrSucces);
 		Mockito.when(run.exec(aryEq(userCMD))).thenReturn(p);
@@ -90,7 +91,7 @@ public abstract class TestNativeCMD {
 	}
 	
 	@Test
-	public void testUserPasswordFail() throws IOException, BadOrderException {
+	public void testUserPasswordFail() throws IOException, BadOrderException, NotImplementedException {
 		Process p=Mockito.mock(Process.class);
 		mockProcess(p,userCMDOutSucces,userCMDErrSucces);
 		Mockito.when(run.exec(aryEq(userCMD))).thenReturn(p);
@@ -102,7 +103,7 @@ public abstract class TestNativeCMD {
 	
 	
 	@Test(expected=BadOrderException.class) 
-	public void testUserPasswordUserNotSetFail() throws IOException,BadOrderException {
+	public void testUserPasswordUserNotSetFail() throws IOException,BadOrderException, NotImplementedException {
 		Process p=Mockito.mock(Process.class);
 		mockProcess(p,passwordCMDOutSucces, passwordCMDErrSucces);
 		Mockito.when(run.exec(aryEq(passwordCMD))).thenReturn(p);

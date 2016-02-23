@@ -9,10 +9,12 @@ public class Serveur extends Thread {
 	private ServerSocket serveurSocket;
 	private Socket socket = new Socket();
 	private String initialDir;
+	private DataChannel dataFactory;
 
 	/** Initialization of Serveur with a specific port **/
 	public void initialization(final int port,final String dir) {
 		this.initialDir=dir;
+		this.dataFactory= new DataChannel();
 		try {
 			this.serveurSocket = new ServerSocket(port);
 			System.out.println("Initialization OK on: " + port);
@@ -31,7 +33,7 @@ public class Serveur extends Thread {
 			System.out.println("Waiting client ...");
 			try {
 				this.socket = this.serveurSocket.accept();
-				new Thread(new FtpRequest(this.socket,new MapCMD(this.initialDir))).start();//essai de mettre un meilleur chemin
+				new Thread(new FtpRequest(this.socket,new MapCMD(this.initialDir), this.dataFactory)).start();//essai de mettre un meilleur chemin
 			} catch (final IOException e) {
 				System.out.println(e.getMessage());
 			}

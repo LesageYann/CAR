@@ -4,17 +4,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 import Constantes.Constantes;
 import nativeCMD.BadOrderException;
 import nativeCMD.NativeCMD;
+import nativeCMD.NotDirException;
+import nativeCMD.NotImplementedException;
 
 public class FtpRequest implements Runnable {
 
@@ -23,9 +27,6 @@ public class FtpRequest implements Runnable {
 
 	/** Give if the user is authenticated **/
 	private boolean isAuthenticated;
-
-	/** The socket dedicated to communication **/
-	private Socket communicationSocket;
 
 	/** The address of connected client **/
 	private final InetAddress clientAddr;
@@ -51,7 +52,9 @@ public class FtpRequest implements Runnable {
 	/** Set one behavior for the resquest system**/
 	private final NativeCMD command; 
 
-	public FtpRequest(final Socket socket, final NativeCMD cmd) throws IOException {
+	private DataChannel dataFactory;
+
+	public FtpRequest(final Socket socket, final NativeCMD cmd, final DataChannel dataChan ) throws IOException {
 		this.socket = socket;
 		this.dataIn = this.socket.getInputStream();
 		this.dataOut = this.socket.getOutputStream();
@@ -59,6 +62,7 @@ public class FtpRequest implements Runnable {
 		this.communicationPort = this.socket.getPort();
 		this.isAuthenticated = false;
 		this.command=cmd;
+		this.dataFactory=dataChan;
 		this.clientIsConnected = true;
 		// par defaut on est en active, attendre le PASV (pas implementer pour l'instant) pour passer en passive (pas bien gérer pour l'instant
 		this.isPassive = false;
@@ -99,25 +103,6 @@ public class FtpRequest implements Runnable {
 		this.dataOut.write(message.getBytes());
 		this.dataOut.flush();
 
-	}
-	
-	void getDataChannel(){
-		try {
-			if(this.isPassive){
-				System.out.println("this is passive");
-				this.communicationSocket= this.passiveSocket.accept();
-			}else {
-				System.out.println("this is not passive");
-				this.communicationSocket = new Socket();
-				this.communicationSocket.connect(new InetSocketAddress(this.clientAddr, this.communicationPort));
-			}
-			
-
-		} catch (final IOException e) {
-			e.printStackTrace();
-		}
-
-		
 	}
 
 	public void processRequest(final String string) throws IOException {
@@ -166,25 +151,34 @@ public class FtpRequest implements Runnable {
 			} else {
 				mess = "500 unkown command";
 			}
-		} catch(BadOrderException e){
+		}catch(BadOrderException e){
 			mess = Constantes.ERREUR_530;
+		}catch(NotDirException e){
+			mess = Constantes.ERREUR_400_NotDir;
+		}catch(NoSuchFileException e){
+			mess = Constantes.ERREUR_404;
+		}catch(ConnectException e){
+			mess = Constantes.ERREUR_500_dataChan;
+		}catch(NotImplementedException e){
+			mess = Constantes.ERREUR_500_implent;
 		}catch(Exception e){
+			e.printStackTrace();
 			mess = "500 unkown server erreur";
 		}
 		this.sendMessage(mess);
 	}
 
-	private String processCdup() throws BadOrderException {
+	private String processCdup() throws BadOrderException, NotImplementedException {
 		this.command.directoryUp();
 		return Constantes.RESPONSE_200_CDUP;
 	}
 
-	private String processCwd(final String dir) throws BadOrderException {
+	private String processCwd(final String dir) throws BadOrderException, NotImplementedException, NotDirException {
 		this.command.changeDirectory(dir);
 		return Constantes.RESPONSE_250_CWD;
 	}
 
-	private String processEprt(final String fullAdresse) {
+	private String processEprt(final String fullAdresse) throws NotImplementedException {
 		if (!this.command.isAuthenticated()) {
 			return Constantes.ERREUR_530;
 		}
@@ -199,7 +193,7 @@ public class FtpRequest implements Runnable {
 		return Constantes.RESPONSE_200_EPSV;
 	}
 
-	private String processPwd() throws BadOrderException {
+	private String processPwd() throws BadOrderException, NotImplementedException {
 		return Constantes.RESPONSE_257_PWD + this.command.currentDir();
 	}
 
@@ -231,7 +225,7 @@ public class FtpRequest implements Runnable {
 		return Constantes.RESPONSE_231_QUIT;
 	}
 
-	public String processList() {
+	public String processList() throws BadOrderException, NotImplementedException, ConnectException {
 		if (!this.isAuthenticated) {
 			return Constantes.ERREUR_530;
 		}
@@ -243,18 +237,18 @@ public class FtpRequest implements Runnable {
 
 		final String answer = this.command.getFilesList();
 
-		this.getDataChannel();
+		Socket communicationSocket =this.dataFactory.getNewDataChannel(this.clientAddr, this.communicationPort,this.isPassive, this.passiveSocket);
 		
 		OutputStream os = null;
 		DataOutputStream dos = null;
 
 		try {
-			os = this.communicationSocket.getOutputStream();
+			os = communicationSocket.getOutputStream();
 			dos = new DataOutputStream(os);
 			dos.writeBytes(answer + Constantes.RESPONSE_226_LIST+ Constantes.END_LINE);
 			System.out.println("Server says : " + answer);
-			this.communicationSocket.close();
-			this.communicationSocket = null;
+			communicationSocket.close();
+			communicationSocket = null;
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
@@ -262,14 +256,14 @@ public class FtpRequest implements Runnable {
 		return Constantes.RESPONSE_226_LIST;
 	}
 
-	public String processUser(final String user) {
+	public String processUser(final String user) throws NotImplementedException {
 		if (this.command.userExist(user)) {
 			return Constantes.RESPONSE_331_USER;// User name okay, need
 		}
 		return Constantes.RESPONSE_530_USER;
 	}
 
-	public String processPass(final String pass) throws BadOrderException {
+	public String processPass(final String pass) throws BadOrderException, NotImplementedException {
 		if (this.command.isAuthenticated()) {
 			return Constantes.RESPONSE_230_PASS; // Peut être une bétise (dépend
 													// si
@@ -285,7 +279,42 @@ public class FtpRequest implements Runnable {
 		return Constantes.RESPONSE_530_PASS; // Not logged in
 	}
 
-	public String processRetr(final String string) throws BadOrderException {
+	public String processRetr(final String string) throws BadOrderException, NotImplementedException, ConnectException, NoSuchFileException {
+		
+		final Path target = this.command.getFilePath(string);
+		System.out.println(target.toString());
+		
+		try {
+			this.sendMessage(Constantes.RESPONSE_150_LIST);
+		} catch (final IOException e2) {
+			e2.printStackTrace();
+		}
+
+		System.out.println(this.clientAddr);
+		System.out.println(this.communicationPort);
+		System.out.println(this.isPassive);
+		System.out.println(this.passiveSocket);
+		Socket communicationSocket =this.dataFactory.getNewDataChannel(this.clientAddr, this.communicationPort,this.isPassive, this.passiveSocket);
+		
+		OutputStream os = null;
+		DataOutputStream dos = null;
+		try {
+			os = communicationSocket.getOutputStream();
+			Files.copy(target, os);
+			dos = new DataOutputStream(os);
+			dos.writeBytes( Constantes.RESPONSE_226_RETR+ Constantes.END_LINE);
+			communicationSocket.close();
+			communicationSocket = null;
+		} catch (final NoSuchFileException e) {
+			throw new NoSuchFileException(string);
+		}catch (final IOException e) {
+			e.printStackTrace();
+		}
+
+		return Constantes.RESPONSE_226_RETR;
+	}
+
+	public String processStor(final String string) throws BadOrderException, NotImplementedException, ConnectException, NoSuchFileException {
 		
 		final Path target = this.command.getFilePath(string);
 		
@@ -295,44 +324,21 @@ public class FtpRequest implements Runnable {
 			e2.printStackTrace();
 		}
 
-		this.getDataChannel();
-
-		OutputStream os = null;
-		DataOutputStream dos = null;
-		try {
-			os = this.communicationSocket.getOutputStream();
-			Files.copy(target, os);
-			dos = new DataOutputStream(os);
-			dos.writeBytes( Constantes.RESPONSE_226_RETR+ Constantes.END_LINE);
-			this.communicationSocket.close();
-			this.communicationSocket = null;
-		} catch (final IOException e) {
-			e.printStackTrace();
-		}
-
-		return Constantes.RESPONSE_226_RETR;
-	}
-
-	public String processStor(final String string) throws BadOrderException {
+		Socket communicationSocket =this.dataFactory.getNewDataChannel(this.clientAddr, this.communicationPort,this.isPassive, this.passiveSocket);
 		
-		final Path target = this.command.getFilePath(string);
-		
-
-		this.getDataChannel();
-
 		OutputStream os = null;
 		DataOutputStream dos = null;
 		InputStream is = null;
 
 		try {
-			is = this.communicationSocket.getInputStream();
+			is = communicationSocket.getInputStream();
 			Files.copy(is,target, StandardCopyOption.REPLACE_EXISTING);
-			os = this.communicationSocket.getOutputStream();
+			os = communicationSocket.getOutputStream();
 			dos = new DataOutputStream(os);
 			dos.writeBytes( Constantes.RESPONSE_226_STOR+ Constantes.END_LINE);
-			this.communicationSocket.close();
-			this.communicationSocket = null;
-		} catch (final IOException e) {
+			communicationSocket.close();
+			communicationSocket = null;
+		}catch (final IOException e) {
 			e.printStackTrace();
 		}
 

@@ -76,3 +76,4 @@ IV) Architecture
 
 		La classe FTPRequestTest contient des tests unitaires réalisés à l'aide de JUnit 4 et Mockito.
 		Grâce à ce dernier nous avons pu vérifier les bons renvois de la part de la méthode processRequest ainsi que l'enchainement de quelques commandes.
+		Le fait de ne pas avoir fait de factory pour ouvrir le cannal data, et donc créer un second socket, nous empêche de tester de maniére unitaire les méthodes STOR, RETR et LIST. En effet nous sommes dépendant du serveur(même si c'est local).

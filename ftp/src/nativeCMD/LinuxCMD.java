@@ -3,6 +3,7 @@ package nativeCMD;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 
 public class LinuxCMD implements NativeCMD {
 
@@ -90,7 +91,6 @@ public class LinuxCMD implements NativeCMD {
         	String[] commande = {"bash","-c","echo ftp | su -l user -c \"echo True\""};
             Process p = Runtime.getRuntime().exec(commande);
             BufferedReader output = getOutput(p);
-            BufferedReader error = getError(p);
             String ligne = "";
 
             while ((ligne = output.readLine()) != null) {
@@ -109,4 +109,42 @@ public class LinuxCMD implements NativeCMD {
         }
         return true;
     }
+
+	@Override
+	public Path getFilePath(String name) throws BadOrderException, NotImplementedException {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public void directoryUp() throws BadOrderException, NotImplementedException {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+		
+	}
+
+	@Override
+	public void changeDirectory(String dir) throws BadOrderException, NotImplementedException {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+		
+	}
+
+	@Override
+	public String currentDir() throws BadOrderException, NotImplementedException {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public String getFilesList() throws NotImplementedException {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public boolean isAuthenticated() throws NotImplementedException {
+		// TODO Auto-generated method stub
+		throw new NotImplementedException();
+	}
 }
