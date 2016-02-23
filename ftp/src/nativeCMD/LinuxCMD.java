@@ -110,39 +110,33 @@ public class LinuxCMD implements NativeCMD {
         return true;
     }
 
-	@Override
 	public Path getFilePath(String name) throws BadOrderException, NotImplementedException {
 		// TODO Auto-generated method stub
 		throw new NotImplementedException();
 	}
 
-	@Override
 	public void directoryUp() throws BadOrderException, NotImplementedException {
 		// TODO Auto-generated method stub
 		throw new NotImplementedException();
 		
 	}
 
-	@Override
 	public void changeDirectory(String dir) throws BadOrderException, NotImplementedException {
 		// TODO Auto-generated method stub
 		throw new NotImplementedException();
 		
 	}
 
-	@Override
 	public String currentDir() throws BadOrderException, NotImplementedException {
 		// TODO Auto-generated method stub
 		throw new NotImplementedException();
 	}
 
-	@Override
 	public String getFilesList() throws NotImplementedException {
 		// TODO Auto-generated method stub
 		throw new NotImplementedException();
 	}
 
-	@Override
 	public boolean isAuthenticated() throws NotImplementedException {
 		// TODO Auto-generated method stub
 		throw new NotImplementedException();

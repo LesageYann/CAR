@@ -73,7 +73,6 @@ public class FtpRequest implements Runnable {
 		return cmd.replaceAll("\n|\r", "");
 	}
 
-	@Override
 	public void run() {
 		try {
 			this.sendMessage(Constantes.RESPONSE_220_WELCOME);

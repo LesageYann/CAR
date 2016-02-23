@@ -143,7 +143,6 @@ public class MapCMD implements NativeCMD {
 		return answer;
 	}
 
-	@Override
 	public boolean isAuthenticated() {
 		return this.isAuthenticated;
 	}

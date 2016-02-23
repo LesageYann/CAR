@@ -149,18 +149,6 @@ public class TestFtpRequest extends TestCase {
 		Mockito.when(command.getFilePath("Tes.class")).thenReturn(Paths.get("./bin/Tes.class"));
 		final String rep = ftp.processRetr("Tes.class");
 	}
-	
-	@Test
-	public void testProcessRetrRenvoie226SiFichierTransferer() throws BadOrderException, NotImplementedException, ConnectException, FileNotFoundException, UnsupportedEncodingException, NoSuchFileException{
-		Mockito.when(command.getFilePath("TestFtpRequest.class")).thenReturn(Paths.get("./bin/TestFtpRequest.class"));
-		final String rep = ftp.processRetr("TestFtpRequest.class");
-		assertTrue(rep.startsWith("226")); 
-	}
-	
-	@Test(expected=NoSuchFileException.class)
-	public void testProcessRetrRenvoieErreurFichierInexistant() throws BadOrderException, NotImplementedException, ConnectException, FileNotFoundException, UnsupportedEncodingException, NoSuchFileException{
-		Mockito.when(command.getFilePath("Tes.class")).thenReturn(Paths.get("./bin/Tes.class"));
-		final String rep = ftp.processRetr("Tes.class");
-	}
+
 	
 }
