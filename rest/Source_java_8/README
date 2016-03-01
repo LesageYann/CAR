@@ -1,0 +1,23 @@
+Petit Antoine
+Lesage Yann
+
+
+Question 1 les tests
+
+On va devoir tester les requetes et regarder les réponses pour get, put, post, delete
+
+pour post :
+ tester la création d'un document sur le serveur.
+ tester l'echec si le fichier existe déjà
+ 
+pour put :
+ tester la mise à jour du document
+ tester l'echec si le fichier n'existe pas
+ 
+pour get :
+ tester la lecture d'un document
+ tester la commande list si on est sur un dossier
+ 
+pour delete :
+  tester la suppression d'un document
+  tester ne rien faire si le doc n'existe pas
