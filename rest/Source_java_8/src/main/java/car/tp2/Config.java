@@ -31,6 +31,7 @@ public class Config {
 	 */
 	protected void addResources( List<Object> resources ) {
 		resources.add( new HelloWorldResource() );
+		resources.add( new FTPRessource() );
 		// resources.add( new MaClasseDeResource() );
 	}
 	
@@ -48,7 +49,7 @@ public class Config {
 		addResources(serviceBeans);
 		
 		factory.setServiceBeans(serviceBeans);
-		factory.setAddress( "/" + factory.getAddress() );
+		factory.setAddress( "" + factory.getAddress() );
 		factory.setProviders( Arrays.<Object>asList( new JacksonJsonProvider() ) );
 		return factory.create();
 	}
