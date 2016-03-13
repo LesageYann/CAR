@@ -28,16 +28,10 @@ public class FTPRessource {
 	}
 	
 	private void connexion(String user, String password) throws SocketException, IOException{
-		System.out.println("pseudo : "+ user);
-		System.out.println("password : "+ password);
 		ftp.connect("ftp.rpdiv.com", 21);
-		System.out.println("connect");
-		System.out.println(ftp.getReply());
-		System.out.println(ftp.user(user));
-		System.out.println("no erreur");
-		System.out.println(ftp.getReply());
-		System.out.println(ftp.pass(password));
-		System.out.println(ftp.getReply());
+		System.out.println(ftp.getReplyString());
+		System.out.println(ftp.login(CONTANSTEAPASMETTRESURGIT.user, CONTANSTEAPASMETTRESURGIT.mdp));
+		System.out.println(ftp.getReplyString());
 	}
 
 	@GET
