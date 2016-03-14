@@ -1,32 +1,72 @@
-README
-------
+LESAGE Yann & PETIT Antoine
 
-Ce projet fournit un framework simple [1] pour l'execution de programmes
-accessibles en tant que ressources REST.
+TP 2 : Passerelle REST
 
-Les ressources se programment comment des classes annotees avec l'API JAX-RS.
-Voir un example avec la classe car.tp2.HelloWorldResource.
-
-Pour pouvoir etre prises en compte par le framework, les ressources doivent etre
-declarees dans la classe car.tp2.Config, methode addResources. La declaration se
-fait en ajoutant une ligne de la forme :
-
-	resources.add( new MaClasseDeResource() )
-	
-Autant de ressources que necessaire peuvent etre declarees.
-
-Le lancement du framework se fait en invoquant la methode Main de la classe
-car.tp2.Starter.
-
-Une fois lancees, les ressources sont accessibles, par exemple via un
-navigateur, en chargeant une URL de la forme :
-
-	http://localhost:8080/rest/tp2/_ressource_
-	par exemple : http://localhost:8080/rest/tp2/helloworld
-	
-
-Lionel Seinturier.
-23 juillet 2015.
+I) Introduction
 
 
-[1] http://aredko.blogspot.fr/2013/01/going-rest-embedding-jetty-with-spring.html
+		L'objectif du TP était d'implanter une passerelle REST servant d'interface à un serveur FTP.
+
+		Elle doit utiliser toutes les capacités que fournis REST avec les différents verbes : GET, PUT, DELETE, POST
+
+
+II) Le programme
+
+
+		Pour executer le programme il faut utiliser la commande suivante : java -jar Starter.jar 
+
+	Une fois ceci fait la passerelle est accessible à l'adresse suivante : localhost:8080/rest/tp2/ftp/
+
+	A partir de cette adresse un lien doit vous être proposez car vous n'êtes pas encore authentifié à un serveur FTP.
+
+	En suivant ce dernier vous aurez un formulaire de connexion, après l'avoir rempli vous pourrez cliquer sur le lien redirigeant vers la racine.
+
+	A partir de ce moment vous pouvez naviguer parmis les fichiers du serveur FTP.
+
+	Un dossier sera indiqué par le lien "Open", cliquer sur ce dernier permet d'accéder au contenu de ce dossier.
+
+	Un fichier est indiqué par le lien "Download", cliquer sur ce dernier permet de télécharger ce dernier.
+
+	En plus de ces liens on trouve la Croix qui permet de supprimer un fichier.
+
+	/!\ Ajouter description permettant de POST /!\
+
+III) Les verbes et leurs comportements 
+
+	GET <Sur un dossier>: Fera appel à LIST du serveur FTP afin de connaitre tout les fichiers dans le dossier
+
+	GET <download/Sur un fichier>: Télécharge le fichier sur le poste grâce à RETR
+
+	DELETE <Sur un fichier> : Supprime le fichier sur le serveur FTP grâce à DELETE
+
+	POST <Un fichier local> : Envoie le fichier sur le serveur FTP grâce à STOR
+
+
+IV) Architecture 
+
+	1) Les classes 
+
+		Starter : La classe permettant de lancer la passerelle REST.
+			C'est la classe contenant le main.
+
+		Config : La classe initialisant la configuration de la passerelle REST.
+			Elle gère aussi les connexions supplémentaires si nécessaire (mode passif/ actif) pour les commandes STOR, RETR et LIST.
+		
+		FTPRessource : La classe contenant la gestion de nos verbes pour faire le lien avec un serveur FTP.
+			Cette classe contient toutes les méthodes permettant de séparer les comportements selon les verbes.
+
+		Page : Interface d'une page, doit contenir une méthode getPage
+
+		HomePage : La page home lorsqu'on est pas authentifié
+
+		AuthPage : La page d'authentification pour s'authentifier
+
+		GetFTPPage : La page représentant les dossiers.
+
+	2 ) Gestion des erreurs 
+
+		L'ensemble des IOException sont récupéré au sein des méthodes et affichées dans les logs de la passerelle.
+
+	3) Tests
+
+		/!\ A Compléter lorsqu'il y aura les tests /!\
