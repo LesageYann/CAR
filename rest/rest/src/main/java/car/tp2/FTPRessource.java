@@ -12,6 +12,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.net.ftp.FTPClient;
@@ -28,8 +29,8 @@ public class FTPRessource {
 	private String user;
 	private String password;
 
-	public FTPRessource() {
-		ftp = new FTPClient();
+	public FTPRessource(FTPClient ftp) {
+		this.ftp = ftp;
 	}
 
 	private void connexion(String user, String password) throws SocketException, IOException {
@@ -82,7 +83,7 @@ public class FTPRessource {
 		}
 		return null;
 	}
-	
+	 
 	@GET
 	@Path("{var: .*/}")
 	@Produces("text/html")
@@ -116,7 +117,7 @@ public class FTPRessource {
 	@PUT
 	@Produces("application/octet-stream")
 	@Path("{var: .*}")
-	public Response putFile(@PathParam("var") String pathname, @FormParam("file") InputStream file) {
+	public Response putFile(@PathParam("var") String pathname, @QueryParam("file") InputStream file) {
 		if (!ftp.isConnected()) {
 			try {
 				connexion(user, password);
