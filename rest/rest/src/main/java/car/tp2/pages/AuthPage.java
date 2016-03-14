@@ -4,7 +4,7 @@ public class AuthPage {
 	final static String head="<html><head></head><body>";
 	final static String form="<form method=\"POST\" action=\"auth\"><input name=\"login\" placeholder=\"login\" /><br /><input type=\"password\" name=\"psw\" placeholder=\"password\" /><br /><input type=\"submit\" value=\"Submit\"><br /></form>";
 	final static String err ="erreur de login/password";
-	final static String succes = "<p>Vous êtes connecter</p><a href=\"..\"> aller sur la racine ftp</a>";
+	final static String succes = "<p>Vous êtes connecter</p><a href=\".\"> aller sur la racine ftp</a>";
 	final static String end = "</body></html>";
 	
 	

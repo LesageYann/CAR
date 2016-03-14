@@ -19,10 +19,10 @@ public class GetFTPPage {
 				html += "Name : " + f.getName() + " / ";
 				html += "Size in bytes : " + f.getSize() + " / ";
 				if(f.isFile()){
-					html += "  <a href =" + "http://localhost:8080/rest/tp2/ftp/download" +name+ ">Download</a>\n" ;
+					html += "  <a href =" + "http://localhost:8080/rest/tp2/ftp/download/" +name+ ">Download</a>\n" ;
 				}
 				if(f.isDirectory()){
-					html += "  <a href =" + "http://localhost:8080/rest/tp2/ftp" + name+ ">Open</a>\n" ;
+					html += "  <a href =" + "http://localhost:8080/rest/tp2/ftp/" + name+ ">Open</a>\n" ;
 				}
 				html += "<button onclick=\"del("+name+")\">X</button></p>";
 			}
