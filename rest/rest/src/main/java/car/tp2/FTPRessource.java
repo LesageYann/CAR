@@ -15,24 +15,24 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;
 
 import car.tp2.pages.AuthPage;
 import car.tp2.pages.GetFTPPage;
+import car.tp2.pages.HomePage;
 
 @Path("/ftp")
 public class FTPRessource {
-	
+
 	private FTPClient ftp;
-	//use to reconnect after timeout connexion
+	// use to reconnect after timeout connexion
 	private String user;
 	private String password;
 
-	public FTPRessource(){
+	public FTPRessource() {
 		ftp = new FTPClient();
 	}
-	
-	private void connexion(String user, String password) throws SocketException, IOException{
+
+	private void connexion(String user, String password) throws SocketException, IOException {
 		ftp.connect("ftp.rpdiv.com", 21);
 		System.out.println("connect");
 		System.out.println(ftp.getReplyString());
@@ -46,54 +46,30 @@ public class FTPRessource {
 	@GET
 	@Path("/auth")
 	@Produces("text/html")
-	public String getConnexionForm( ) {
+	public String getConnexionForm() {
 		return AuthPage.getPage();
-	 }
-	
+	}
+
 	@POST
 	@Path("/auth")
 	@Produces("text/html")
-	public String postConnexionForm( @FormParam("login") String login, @FormParam("psw") String psw) {
-		this.user=login;
-		this.password=psw;
+	public String postConnexionForm(@FormParam("login") String login, @FormParam("psw") String psw) {
+		this.user = login;
+		this.password = psw;
 		try {
-			this.connexion(login,psw);
+			this.connexion(login, psw);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return AuthPage.postErrPage();
 		}
 		return AuthPage.postSuccesPage();
-	 }
+	}
+
 	
-	@GET
-	@Path("{var: .*}")
-	@Produces("text/html")
-	public String getStuff( @PathParam("var") String path ) {
-		InputStream is;
-		if (!ftp.isConnected()){
-			try {
-				connexion(user,password);
-			}
-			catch (IOException e) { 
-				e.printStackTrace();
-				return e.toString();
-			}
-		}
-		try {
-			if (!("").equals(path)) {
-				path += "";
-			}
-			return GetFTPPage.getDir(path, ftp.listFiles(path));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return e.toString(); 
-		}
-	 }
-	
+
 	@GET
 	@Produces("application/octet-stream")
-	@Path("download/{filename}")
+	@Path("download/{filename :.*}")
 	public Response getFile(@PathParam("filename") String filename) {
 		InputStream in;
 		try {
@@ -104,57 +80,83 @@ public class FTPRessource {
 		} catch (IOException e) {
 			System.out.print("Erreur lors du téléchargement du fichier :" + filename);
 		}
-       return null;
+		return null;
+	}
+	
+	@GET
+	@Path("{var: .*/}")
+	@Produces("text/html")
+	public String getStuff(@PathParam("var") String path) {
+		try {
+			
+			return GetFTPPage.getDir(path, ftp.listFiles(path));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return e.toString();
+		}
+	}
+	
+	//Doublon nécessaire pour le fonctionnement du home
+	@GET
+	@Produces("text/html")
+	public String getHome() {
+		if (!ftp.isConnected()) {
+			return HomePage.getPage();
+		}
+		try {
+			return GetFTPPage.getDir("", ftp.listFiles(""));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return e.toString();
+		}
 	}
 
-	
 	@PUT
 	@Produces("application/octet-stream")
 	@Path("{var: .*}")
 	public Response putFile(@PathParam("var") String pathname, @FormParam("file") InputStream file) {
-		if (!ftp.isConnected()){
+		if (!ftp.isConnected()) {
 			try {
-				connexion(user,password);
-			}
-			catch (IOException e) { 
+				connexion(user, password);
+			} catch (IOException e) {
 				e.printStackTrace();
 				return Response.serverError().build();
 			}
 		}
 		try {
-			if (this.ftp.storeUniqueFile(pathname, file)){
+			if (this.ftp.storeUniqueFile(pathname, file)) {
 				return Response.ok().build();
 			}
 			return Response.serverError().build();
 		} catch (IOException e) {
 			System.out.print("Erreur lors du téléchargement du fichier :" + pathname);
 		}
-       return null;
+		return null;
 	}
-	
+
 	@DELETE
 	@Produces("application/octet-stream")
 	@Path("{var: .*}")
 	public Response deleteFile(@PathParam("var") String pathname) {
-		if (!ftp.isConnected()){
+		if (!ftp.isConnected()) {
 			try {
-				connexion(user,password);
-			}
-			catch (IOException e) { 
+				connexion(user, password);
+			} catch (IOException e) {
 				e.printStackTrace();
 				return Response.serverError().build();
 			}
 		}
 		try {
-			if (this.ftp.deleteFile(pathname)){
+			if (this.ftp.deleteFile(pathname)) {
 				return Response.ok().build();
 			}
 			return Response.serverError().build();
 		} catch (IOException e) {
 			System.out.print("Erreur lors du téléchargement du fichier :" + pathname);
 		}
-       return null;
+		return null;
 	}
-	
 
 }
