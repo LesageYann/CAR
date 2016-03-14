@@ -49,7 +49,7 @@ public class Config {
 		addResources(serviceBeans);
 		
 		factory.setServiceBeans(serviceBeans);
-		factory.setAddress( "" + factory.getAddress() );
+		factory.setAddress( "/" + factory.getAddress() );
 		factory.setProviders( Arrays.<Object>asList( new JacksonJsonProvider() ) );
 		return factory.create();
 	}
