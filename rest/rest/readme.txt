@@ -37,11 +37,11 @@ III) Les verbes et leurs comportements
 
 	GET <download/Sur un fichier>: Télécharge le fichier sur le poste grâce à RETR
 
-	DELETE <Sur un fichier> : Supprime le fichier sur le serveur FTP grâce à DELETE
+	DELETE <Sur un fichier> : Supprime le fichier sur le serveur FTP grâce à DELETE (Remarque : ne fonctionne pas partout)
 
 	PUT <Un fichier local> : Envoie le fichier sur le serveur FTP grâce à STOR, les dossiers necessaires sont crées (non implementer)
 
-	POST <Un repertoire local> : Envoie le fichier sur le serveur FTP grâce à STOR. Le nom de fichier et le fichier sont passés via un form  les dossiers necessaires sont créés (bug)
+	POST <Un repertoire local> : Envoie le fichier sur le serveur FTP grâce à STOR. Le nom de fichier et le fichier sont passés via un form  les dossiers necessaires sont créés
 
 IV) Architecture 
 
@@ -71,4 +71,8 @@ IV) Architecture
 
 	3) Tests
 
-		/!\ A Compléter lorsqu'il y aura les tests /!\
+		Non fait, les tests ont seulement étaient effectué à la main.
+
+	4) Difficultés
+
+		Nous avons rencontrés des soucis avec les verbes DELETE et PUT qui n'ont pas été maintenu avec HTML5

@@ -10,7 +10,7 @@ import javax.ws.rs.Produces;
  * 
  * 		http://localhost:8080/rest/tp2/helloworld
  * 
- * @author Lionel Seinturier <Lionel.Seinturier@univ-lille1.fr>
+ * @author Lionel Seinturier Lionel.Seinturier@univ-lille1.fr
  */
 @Path("/helloworld")
 public class HelloWorldResource {

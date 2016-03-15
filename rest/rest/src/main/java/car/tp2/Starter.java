@@ -12,7 +12,7 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
  * Demarre un serveur sur le port 8080.
  * Utilise le prefixe /rest/ pour les URLs.
  * 
- * @author Lionel Seinturier <Lionel.Seinturier@univ-lille1.fr>
+ * @author Lionel Seinturier Lionel.Seinturier@univ-lille1.fr
  */
 public class Starter {
 	

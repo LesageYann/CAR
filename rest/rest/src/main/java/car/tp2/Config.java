@@ -21,7 +21,7 @@ import org.springframework.context.annotation.DependsOn;
  * Configuration de l'application.
  * Declaration des classes de ressource REST.
  * 
- * @author Lionel Seinturier <Lionel.Seinturier@univ-lille1.fr>
+ * @author Lionel Seinturier Lionel.Seinturier@univ-lille1.fr
  */
 @Configuration
 public class Config {
