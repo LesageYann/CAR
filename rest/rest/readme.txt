@@ -39,8 +39,9 @@ III) Les verbes et leurs comportements
 
 	DELETE <Sur un fichier> : Supprime le fichier sur le serveur FTP grâce à DELETE
 
-	POST <Un fichier local> : Envoie le fichier sur le serveur FTP grâce à STOR
+	PUT <Un fichier local> : Envoie le fichier sur le serveur FTP grâce à STOR, les dossiers necessaires sont crées (non implementer)
 
+	POST <Un repertoire local> : Envoie le fichier sur le serveur FTP grâce à STOR. Le nom de fichier et le fichier sont passés via un form  les dossiers necessaires sont créés (bug)
 
 IV) Architecture 
 
@@ -66,6 +67,7 @@ IV) Architecture
 	2 ) Gestion des erreurs 
 
 		L'ensemble des IOException sont récupéré au sein des méthodes et affichées dans les logs de la passerelle.
+		On renvoie des indication html (ex mauvais login/password + formulaire de connexion) en guise d'indication pour l'utilisateur
 
 	3) Tests
 

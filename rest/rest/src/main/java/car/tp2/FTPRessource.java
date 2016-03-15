@@ -12,7 +12,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.net.ftp.FTPClient;
@@ -114,10 +113,11 @@ public class FTPRessource {
 		}
 	}
 
-	@PUT
-	@Produces("application/octet-stream")
+	@POST
+	@Produces("text/html")
 	@Path("{var: .*}")
-	public Response putFile(@PathParam("var") String pathname, @QueryParam("file") InputStream file) {
+	public Response putFile(@PathParam("var") String pathname, @FormParam("file") String file, @FormParam("name") String name) {
+		System.out.println(file);
 		if (!ftp.isConnected()) {
 			try {
 				connexion(user, password);
@@ -127,18 +127,18 @@ public class FTPRessource {
 			}
 		}
 		try {
-			if (this.ftp.storeUniqueFile(pathname, file)) {
+			if (this.ftp.storeUniqueFile(pathname+"/"+name, null)) {
 				return Response.ok().build();
 			}
 			return Response.serverError().build();
 		} catch (IOException e) {
-			System.out.print("Erreur lors du téléchargement du fichier :" + pathname);
+			System.out.print("Erreur lors du téléchargement du fichier :" + pathname+"/"+name);
 		}
 		return null;
 	}
 
 	@DELETE
-	@Produces("application/octet-stream")
+	@Produces("text/html")
 	@Path("{var: .*}")
 	public Response deleteFile(@PathParam("var") String pathname) {
 		if (!ftp.isConnected()) {

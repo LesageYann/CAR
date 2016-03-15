@@ -6,7 +6,7 @@ public class GetFTPPage {
 
 	final static String head="<html><head><script src=\"http://www.mutu.rpdiv.com/script3.js\"></script></head><body><h1>Server files</h1>";
 	final static String end = "</body></html>";
-	final static String form="<div id=\"form\"><input type=\"file\" name=\"file\" id=\"file\" /><button onclick=\"upload()\">ajouter</button><br /></div>";
+	final static String form="<form action=\".\" method=\"POST\"><input type=\"text\" name=\"name\" placeholder=\"name\"><input type=\"file\" name=\"file\" id=\"file\" /><input value=\"ajouter\" type=\"submit\"/><br /></form>";
 	
 	static public String getDir(final String path, final FTPFile[] list){
 		String html= head+form;
