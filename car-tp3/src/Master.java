@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
@@ -10,27 +12,25 @@ public class Master extends UntypedActor {
 
 	private ActorSystem system = ActorSystem.create("MyLittlePoney");
 	private ActorRef nodeRouter;
+	private Map<String, ActorRef> nodes; 
 
 	public Master() {
-		ActorRef childSix = system.actorOf(Props.create(Node.class, "6", new ArrayList<ActorRef>()));
-		ActorRef childFour = system
-				.actorOf(Props.create(Node.class, "4", new ArrayList<ActorRef>() ));
-		ActorRef childThree = system.actorOf(Props
-				.create(Node.class, "3", new ArrayList<ActorRef>()));
+		nodes = new HashMap<String, ActorRef>();
+        nodes.put("6", system.actorOf(Props.create(Node.class, "6", new ArrayList<ActorRef>())));
+		nodes.put("4", system.actorOf(Props.create(Node.class, "4", new ArrayList<ActorRef>())));
+		nodes.put("3", system.actorOf(Props.create(Node.class, "3", new ArrayList<ActorRef>())));
 		List<ActorRef> listFive = new ArrayList<ActorRef>();
-		listFive.add(childSix);
+		listFive.add(nodes.get("6"));
 		List<ActorRef> listTwo = new ArrayList<ActorRef>();
-		listTwo.add(childFour);
-		listTwo.add(childThree);
-		ActorRef childFive = system.actorOf(Props.create(Node.class, "5",
-				listFive));
-		ActorRef childTwo = system.actorOf(Props.create(Node.class, "2",
-				listTwo));
+		listTwo.add(nodes.get("4"));
+		listTwo.add(nodes.get("3"));
+		nodes.put("5", system.actorOf(Props.create(Node.class, "5",listFive)));
+		nodes.put("2", system.actorOf(Props.create(Node.class, "2",listTwo)));
 		List<ActorRef> listOne = new ArrayList<ActorRef>();
-		listOne.add(childFive);
-		listOne.add(childTwo);
+		listOne.add(nodes.get("2"));
+		listOne.add(nodes.get("5"));
 
-		nodeRouter = system.actorOf(Props.create(Node.class, "1", listOne));
+		nodes.put("1",system.actorOf(Props.create(Node.class, "1", listOne)));
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class Master extends UntypedActor {
 		if (message instanceof String) {
 			String messageString = (String) message;
 			System.out.println("Message reçu par le master :" + messageString);
-			nodeRouter.forward(message, getContext());
+			nodes.get("1").forward(message, getContext());
 		} else {
 			unhandled(message);
 		}
