@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Message.Msg;
 import Message.StartMsg;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
@@ -36,9 +37,9 @@ public class Master extends UntypedActor {
 	
 	@Override
 	public void onReceive(Object message) throws Exception {
-		if (message instanceof String) {
-			String messageString = (String) message;
-			System.out.println("Message reçu par le master :" + messageString);
+		if (message instanceof Msg) {
+			Msg messageString = (Msg) message;
+			System.out.println("Message reçu par le master :" + messageString.getMsg());
 			nodes.get("1").forward(message, getContext());
 		} else if (message instanceof StartMsg) {
 			StartMsg messageString = (StartMsg) message;
@@ -56,9 +57,9 @@ public class Master extends UntypedActor {
 		System.out.println(args);
 		if(args.length>0){
 			System.out.println(args[0]);
-			master.tell(new StartMsg(args[0], "lipatatorne"), null);
+			master.tell(new StartMsg( 96, args[0], "lipatatorne"), null);
 		} else{
-			master.tell("lipatatorne", null);
+			master.tell(new Msg( 42, "lipatatorne"), null);
 		}
 	}
 }
