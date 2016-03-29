@@ -1,0 +1,442 @@
+mars 29, 2016 5:25:03 PM org.apache.catalina.core.StandardWrapperValve invoke
+GRAVE: Servlet.service() for servlet [jsp] in context with path [] threw exception [Impossible de compiler la classe pour la JSP: 
+
+Une erreur s'est produite à la ligne: 18 dans le fichier jsp: /form.jsp
+title cannot be resolved to a variable
+15: 
+16: <form action="form.jsp">
+17: Auteur : <input type="text" name="author" value="<%=author%>"><br/>
+18: Titre : <input type="text" name="title" value="<%=title%>"><br/>
+19: Ann&eacute;e : <input type="text" name="year" value="<%=year%>"><br/>
+20: <input type="submit">
+21: </form>
+
+
+Une erreur s'est produite à la ligne: 19 dans le fichier jsp: /form.jsp
+year cannot be resolved to a variable
+16: <form action="form.jsp">
+17: Auteur : <input type="text" name="author" value="<%=author%>"><br/>
+18: Titre : <input type="text" name="title" value="<%=title%>"><br/>
+19: Ann&eacute;e : <input type="text" name="year" value="<%=year%>"><br/>
+20: <input type="submit">
+21: </form>
+22: </html>
+
+
+Stacktrace:] with root cause
+org.apache.jasper.JasperException: Impossible de compiler la classe pour la JSP: 
+
+Une erreur s'est produite à la ligne: 18 dans le fichier jsp: /form.jsp
+title cannot be resolved to a variable
+15: 
+16: <form action="form.jsp">
+17: Auteur : <input type="text" name="author" value="<%=author%>"><br/>
+18: Titre : <input type="text" name="title" value="<%=title%>"><br/>
+19: Ann&eacute;e : <input type="text" name="year" value="<%=year%>"><br/>
+20: <input type="submit">
+21: </form>
+
+
+Une erreur s'est produite à la ligne: 19 dans le fichier jsp: /form.jsp
+year cannot be resolved to a variable
+16: <form action="form.jsp">
+17: Auteur : <input type="text" name="author" value="<%=author%>"><br/>
+18: Titre : <input type="text" name="title" value="<%=title%>"><br/>
+19: Ann&eacute;e : <input type="text" name="year" value="<%=year%>"><br/>
+20: <input type="submit">
+21: </form>
+22: </html>
+
+
+Stacktrace:
+	at org.apache.jasper.compiler.DefaultErrorHandler.javacError(DefaultErrorHandler.java:103)
+	at org.apache.jasper.compiler.ErrorDispatcher.javacError(ErrorDispatcher.java:366)
+	at org.apache.jasper.compiler.JDTCompiler.generateClass(JDTCompiler.java:476)
+	at org.apache.jasper.compiler.Compiler.compile(Compiler.java:378)
+	at org.apache.jasper.compiler.Compiler.compile(Compiler.java:353)
+	at org.apache.jasper.compiler.Compiler.compile(Compiler.java:340)
+	at org.apache.jasper.JspCompilationContext.compile(JspCompilationContext.java:657)
+	at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:357)
+	at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:390)
+	at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:334)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:727)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:303)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:220)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:122)
+	at org.apache.tomee.catalina.OpenEJBValve.invoke(OpenEJBValve.java:44)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:501)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:103)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:950)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:116)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1070)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:611)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:314)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+
+mars 29, 2016 5:25:44 PM org.apache.catalina.core.StandardWrapperValve invoke
+GRAVE: Servlet.service() for servlet [jsp] in context with path [] threw exception [Impossible de compiler la classe pour la JSP: 
+
+Une erreur s'est produite à la ligne: 18 dans le fichier jsp: /form.jsp
+title cannot be resolved to a variable
+15: 
+16: <form action="form.jsp">
+17: Auteur : <input type="text" name="author" value="<%=author%>"><br/>
+18: Titre : <input type="text" name="title" value="<%=title%>"><br/>
+19: Ann&eacute;e : <input type="text" name="year" value="<%=year%>"><br/>
+20: <input type="submit">
+21: </form>
+
+
+Une erreur s'est produite à la ligne: 19 dans le fichier jsp: /form.jsp
+year cannot be resolved to a variable
+16: <form action="form.jsp">
+17: Auteur : <input type="text" name="author" value="<%=author%>"><br/>
+18: Titre : <input type="text" name="title" value="<%=title%>"><br/>
+19: Ann&eacute;e : <input type="text" name="year" value="<%=year%>"><br/>
+20: <input type="submit">
+21: </form>
+22: </html>
+
+
+Stacktrace:] with root cause
+org.apache.jasper.JasperException: Impossible de compiler la classe pour la JSP: 
+
+Une erreur s'est produite à la ligne: 18 dans le fichier jsp: /form.jsp
+title cannot be resolved to a variable
+15: 
+16: <form action="form.jsp">
+17: Auteur : <input type="text" name="author" value="<%=author%>"><br/>
+18: Titre : <input type="text" name="title" value="<%=title%>"><br/>
+19: Ann&eacute;e : <input type="text" name="year" value="<%=year%>"><br/>
+20: <input type="submit">
+21: </form>
+
+
+Une erreur s'est produite à la ligne: 19 dans le fichier jsp: /form.jsp
+year cannot be resolved to a variable
+16: <form action="form.jsp">
+17: Auteur : <input type="text" name="author" value="<%=author%>"><br/>
+18: Titre : <input type="text" name="title" value="<%=title%>"><br/>
+19: Ann&eacute;e : <input type="text" name="year" value="<%=year%>"><br/>
+20: <input type="submit">
+21: </form>
+22: </html>
+
+
+Stacktrace:
+	at org.apache.jasper.compiler.DefaultErrorHandler.javacError(DefaultErrorHandler.java:103)
+	at org.apache.jasper.compiler.ErrorDispatcher.javacError(ErrorDispatcher.java:366)
+	at org.apache.jasper.compiler.JDTCompiler.generateClass(JDTCompiler.java:476)
+	at org.apache.jasper.compiler.Compiler.compile(Compiler.java:378)
+	at org.apache.jasper.compiler.Compiler.compile(Compiler.java:353)
+	at org.apache.jasper.compiler.Compiler.compile(Compiler.java:340)
+	at org.apache.jasper.JspCompilationContext.compile(JspCompilationContext.java:657)
+	at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:357)
+	at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:390)
+	at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:334)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:727)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:303)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:220)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:122)
+	at org.apache.tomee.catalina.OpenEJBValve.invoke(OpenEJBValve.java:44)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:501)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:103)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:950)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:116)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1070)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:611)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:314)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+
+mars 29, 2016 5:44:07 PM org.apache.catalina.core.StandardWrapperValve invoke
+GRAVE: Servlet.service() for servlet [jsp] in context with path [] threw exception [Impossible de compiler la classe pour la JSP: 
+
+Une erreur s'est produite à la ligne: 5 dans le fichier jsp: /form.jsp
+request cannot be resolved
+2: 
+3: <%!
+4: 
+5: String author = request.getParameter("author");
+6: String title = request.getParameter("title");
+7: String year = request.getParameter("year");
+8: if ( author != null ) {
+
+
+Une erreur s'est produite à la ligne: 6 dans le fichier jsp: /form.jsp
+request cannot be resolved
+3: <%!
+4: 
+5: String author = request.getParameter("author");
+6: String title = request.getParameter("title");
+7: String year = request.getParameter("year");
+8: if ( author != null ) {
+9:     out.print("Auteur : "+author+"<br/>");
+
+
+Une erreur s'est produite à la ligne: 7 dans le fichier jsp: /form.jsp
+request cannot be resolved
+4: 
+5: String author = request.getParameter("author");
+6: String title = request.getParameter("title");
+7: String year = request.getParameter("year");
+8: if ( author != null ) {
+9:     out.print("Auteur : "+author+"<br/>");
+10:     out.print("Titre : "+title+"<br/>");
+
+
+Une erreur s'est produite à la ligne: 7 dans le fichier jsp: /form.jsp
+Syntax error on token ";", { expected after this token
+4: 
+5: String author = request.getParameter("author");
+6: String title = request.getParameter("title");
+7: String year = request.getParameter("year");
+8: if ( author != null ) {
+9:     out.print("Auteur : "+author+"<br/>");
+10:     out.print("Titre : "+title+"<br/>");
+
+
+Une erreur s'est produite à la ligne: 9 dans le fichier jsp: /form.jsp
+out cannot be resolved
+6: String title = request.getParameter("title");
+7: String year = request.getParameter("year");
+8: if ( author != null ) {
+9:     out.print("Auteur : "+author+"<br/>");
+10:     out.print("Titre : "+title+"<br/>");
+11:     out.print("Ann&eacute;e : "+year+"<br/><p/>");
+12: }
+
+
+Une erreur s'est produite à la ligne: 10 dans le fichier jsp: /form.jsp
+out cannot be resolved
+7: String year = request.getParameter("year");
+8: if ( author != null ) {
+9:     out.print("Auteur : "+author+"<br/>");
+10:     out.print("Titre : "+title+"<br/>");
+11:     out.print("Ann&eacute;e : "+year+"<br/><p/>");
+12: }
+13: 
+
+
+Une erreur s'est produite à la ligne: 11 dans le fichier jsp: /form.jsp
+out cannot be resolved
+8: if ( author != null ) {
+9:     out.print("Auteur : "+author+"<br/>");
+10:     out.print("Titre : "+title+"<br/>");
+11:     out.print("Ann&eacute;e : "+year+"<br/><p/>");
+12: }
+13: 
+14: %>
+
+
+An error occurred at line: [38] in the generated java file: [/home/m1/petita/Documents/CAR/car-tp4/apache-tomee/work/Catalina/localhost/_/org/apache/jsp/form_jsp.java]
+Syntax error, insert "VariableDeclarators" to complete LocalVariableDeclaration
+
+An error occurred at line: [38] in the generated java file: [/home/m1/petita/Documents/CAR/car-tp4/apache-tomee/work/Catalina/localhost/_/org/apache/jsp/form_jsp.java]
+Syntax error, insert ";" to complete LocalVariableDeclarationStatement
+
+An error occurred at line: [38] in the generated java file: [/home/m1/petita/Documents/CAR/car-tp4/apache-tomee/work/Catalina/localhost/_/org/apache/jsp/form_jsp.java]
+Syntax error on token "{", ; expected
+
+Stacktrace:] with root cause
+org.apache.jasper.JasperException: Impossible de compiler la classe pour la JSP: 
+
+Une erreur s'est produite à la ligne: 5 dans le fichier jsp: /form.jsp
+request cannot be resolved
+2: 
+3: <%!
+4: 
+5: String author = request.getParameter("author");
+6: String title = request.getParameter("title");
+7: String year = request.getParameter("year");
+8: if ( author != null ) {
+
+
+Une erreur s'est produite à la ligne: 6 dans le fichier jsp: /form.jsp
+request cannot be resolved
+3: <%!
+4: 
+5: String author = request.getParameter("author");
+6: String title = request.getParameter("title");
+7: String year = request.getParameter("year");
+8: if ( author != null ) {
+9:     out.print("Auteur : "+author+"<br/>");
+
+
+Une erreur s'est produite à la ligne: 7 dans le fichier jsp: /form.jsp
+request cannot be resolved
+4: 
+5: String author = request.getParameter("author");
+6: String title = request.getParameter("title");
+7: String year = request.getParameter("year");
+8: if ( author != null ) {
+9:     out.print("Auteur : "+author+"<br/>");
+10:     out.print("Titre : "+title+"<br/>");
+
+
+Une erreur s'est produite à la ligne: 7 dans le fichier jsp: /form.jsp
+Syntax error on token ";", { expected after this token
+4: 
+5: String author = request.getParameter("author");
+6: String title = request.getParameter("title");
+7: String year = request.getParameter("year");
+8: if ( author != null ) {
+9:     out.print("Auteur : "+author+"<br/>");
+10:     out.print("Titre : "+title+"<br/>");
+
+
+Une erreur s'est produite à la ligne: 9 dans le fichier jsp: /form.jsp
+out cannot be resolved
+6: String title = request.getParameter("title");
+7: String year = request.getParameter("year");
+8: if ( author != null ) {
+9:     out.print("Auteur : "+author+"<br/>");
+10:     out.print("Titre : "+title+"<br/>");
+11:     out.print("Ann&eacute;e : "+year+"<br/><p/>");
+12: }
+
+
+Une erreur s'est produite à la ligne: 10 dans le fichier jsp: /form.jsp
+out cannot be resolved
+7: String year = request.getParameter("year");
+8: if ( author != null ) {
+9:     out.print("Auteur : "+author+"<br/>");
+10:     out.print("Titre : "+title+"<br/>");
+11:     out.print("Ann&eacute;e : "+year+"<br/><p/>");
+12: }
+13: 
+
+
+Une erreur s'est produite à la ligne: 11 dans le fichier jsp: /form.jsp
+out cannot be resolved
+8: if ( author != null ) {
+9:     out.print("Auteur : "+author+"<br/>");
+10:     out.print("Titre : "+title+"<br/>");
+11:     out.print("Ann&eacute;e : "+year+"<br/><p/>");
+12: }
+13: 
+14: %>
+
+
+An error occurred at line: [38] in the generated java file: [/home/m1/petita/Documents/CAR/car-tp4/apache-tomee/work/Catalina/localhost/_/org/apache/jsp/form_jsp.java]
+Syntax error, insert "VariableDeclarators" to complete LocalVariableDeclaration
+
+An error occurred at line: [38] in the generated java file: [/home/m1/petita/Documents/CAR/car-tp4/apache-tomee/work/Catalina/localhost/_/org/apache/jsp/form_jsp.java]
+Syntax error, insert ";" to complete LocalVariableDeclarationStatement
+
+An error occurred at line: [38] in the generated java file: [/home/m1/petita/Documents/CAR/car-tp4/apache-tomee/work/Catalina/localhost/_/org/apache/jsp/form_jsp.java]
+Syntax error on token "{", ; expected
+
+Stacktrace:
+	at org.apache.jasper.compiler.DefaultErrorHandler.javacError(DefaultErrorHandler.java:103)
+	at org.apache.jasper.compiler.ErrorDispatcher.javacError(ErrorDispatcher.java:366)
+	at org.apache.jasper.compiler.JDTCompiler.generateClass(JDTCompiler.java:476)
+	at org.apache.jasper.compiler.Compiler.compile(Compiler.java:378)
+	at org.apache.jasper.compiler.Compiler.compile(Compiler.java:353)
+	at org.apache.jasper.compiler.Compiler.compile(Compiler.java:340)
+	at org.apache.jasper.JspCompilationContext.compile(JspCompilationContext.java:657)
+	at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:357)
+	at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:390)
+	at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:334)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:727)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:303)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:220)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:122)
+	at org.apache.tomee.catalina.OpenEJBValve.invoke(OpenEJBValve.java:44)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:501)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:103)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:950)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:116)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1070)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:611)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:314)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+
+mars 29, 2016 5:47:44 PM org.apache.catalina.core.StandardWrapperValve invoke
+GRAVE: Servlet.service() for servlet [jsp] in context with path [] threw exception [Impossible de compiler la classe pour la JSP: 
+
+Une erreur s'est produite à la ligne: 9 dans le fichier jsp: /form.jsp
+The method getCompteur() is undefined for the type form_jsp
+6: String year;
+7: %>
+8: 
+9: Compteur : <%= getCompteur()%>
+10: <%
+11: 
+12: if ( request.getParameter("author") != null ) {
+
+
+Stacktrace:] with root cause
+org.apache.jasper.JasperException: Impossible de compiler la classe pour la JSP: 
+
+Une erreur s'est produite à la ligne: 9 dans le fichier jsp: /form.jsp
+The method getCompteur() is undefined for the type form_jsp
+6: String year;
+7: %>
+8: 
+9: Compteur : <%= getCompteur()%>
+10: <%
+11: 
+12: if ( request.getParameter("author") != null ) {
+
+
+Stacktrace:
+	at org.apache.jasper.compiler.DefaultErrorHandler.javacError(DefaultErrorHandler.java:103)
+	at org.apache.jasper.compiler.ErrorDispatcher.javacError(ErrorDispatcher.java:366)
+	at org.apache.jasper.compiler.JDTCompiler.generateClass(JDTCompiler.java:476)
+	at org.apache.jasper.compiler.Compiler.compile(Compiler.java:378)
+	at org.apache.jasper.compiler.Compiler.compile(Compiler.java:353)
+	at org.apache.jasper.compiler.Compiler.compile(Compiler.java:340)
+	at org.apache.jasper.JspCompilationContext.compile(JspCompilationContext.java:657)
+	at org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:357)
+	at org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:390)
+	at org.apache.jasper.servlet.JspServlet.service(JspServlet.java:334)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:727)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:303)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:241)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:208)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:220)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:122)
+	at org.apache.tomee.catalina.OpenEJBValve.invoke(OpenEJBValve.java:44)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:501)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:103)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:950)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:116)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1070)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:611)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:314)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+
