@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Book {
+public class BookDAO {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -18,7 +18,7 @@ public class Book {
 	
 	private int year;
 	
-	public Book(final String author,final String title, int year) {
+	public BookDAO(final String author,final String title, int year) {
 		this.author = author;
 		this.title = title;
 		this.year = year;
