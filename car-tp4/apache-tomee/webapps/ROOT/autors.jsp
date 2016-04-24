@@ -6,17 +6,26 @@
 
 
 <%
-	BookLibItf bookLib = (BookLib) session.getAttribute("BOOKLIB");;
+	List<String> errors = (List<String>) request.getAttribute("error");
+	if (errors != null) {
+		for (String error : errors) {
+			out.print(error + "<br/>");
+		}
+	}
+%>
+
+<%
+	BookLibItf bookLib = (BookLibItf) session.getAttribute("library");;
 	if (bookLib == null) {  
 
 %>
 
-	Le contenu n'est pas initialisé, veuillez l'initialiser : <a href='/initialize.jsp'>Cliquez ici</a>
+	Le contenu n'est pas initialis&eacute;, veuillez l'initialiser : <a href='/init'>Cliquez ici</a>
 	
 <%
 	}
 	else {
-		out.print("Les auteurs suivants sont présents :<br/><br/><ul>");
+		out.print("Les auteurs suivants sont pr�sents :<br/><br/><ul>");
 		for (String author : bookLib.getAutors()) {
 			out.print("<li>Auteur : "+author+"</li>");
 		}
@@ -24,6 +33,6 @@
 	}
 %>
 <br/>
-<a href='/form.jsp'>Form</a><br/>
+<a href='/form_ajout.jsp'>Form</a><br/>
 
 </html>
