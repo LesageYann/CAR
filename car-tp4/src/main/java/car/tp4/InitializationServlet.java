@@ -1,12 +1,7 @@
 package car.tp4;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,38 +19,20 @@ public class InitializationServlet extends HttpServlet {
 
 	public void service(final HttpServletRequest request, final HttpServletResponse response) {
 		BookLibItf myBookLib = new BookLib();
-		List<BookDAO> books = new ArrayList<BookDAO>();
+
 		List<String> error = new ArrayList<String>();
+
 		try {
-
-			Class.forName("org.hsqldb.jdbcDriver").newInstance();
-			Connection connexion = DriverManager.getConnection("jdbc:hsqldb:file:database", "sa", "");
-			DatabaseMetaData dbm = connexion.getMetaData();
-			ResultSet tables = dbm.getTables(null, null, "LIVRE", null);
-			if (tables.next()) {
-				Statement statement = connexion.createStatement();
-				ResultSet resultat = statement.executeQuery("SELECT * FROM LIVRE");
-				while (resultat.next()) {
-					//Comment gérer l'id du livre ?
-					books.add(new BookDAO((String) resultat.getObject("author"), (String) resultat.getObject("title"),
-							((Integer) resultat.getObject("year")).intValue()));
-				}
-			} else {
-				//Si la table n'existe pas on la créée
-				Statement statement = connexion.createStatement() ;
-				statement.executeUpdate("CREATE TABLE Livre (id INT,author VARCHAR(100) , title VARCHAR(100), year INT)");
-			}
-
+			myBookLib.initialize();
 		} catch (InstantiationException e1) {
-			error.add(e1.toString());
+			error.add(e1.getMessage());
 		} catch (IllegalAccessException e1) {
-			error.add(e1.toString());
+			error.add(e1.getMessage());
 		} catch (ClassNotFoundException e1) {
-			error.add(e1.toString());
+			error.add(e1.getMessage());
 		} catch (SQLException e) {
-			error.add(e.toString());
+			error.add(e.getMessage());		
 		}
-		myBookLib.initialize(books);
 		request.getSession().setAttribute("library", myBookLib);
 		request.setAttribute("error", error);
 		// Redirection

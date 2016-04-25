@@ -8,6 +8,8 @@ import javax.persistence.Id;
 @Entity
 public class BookDAO {
 
+	private static int count = 0; 
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int id;
@@ -19,6 +21,14 @@ public class BookDAO {
 	private int year;
 	
 	public BookDAO(final String author,final String title, int year) {
+		this.id = count++;
+		this.author = author;
+		this.title = title;
+		this.year = year;
+	}
+	
+	public BookDAO(int id,final String author,final String title, int year) {
+		this.id = id;
 		this.author = author;
 		this.title = title;
 		this.year = year;
