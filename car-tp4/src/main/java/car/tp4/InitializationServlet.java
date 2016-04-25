@@ -43,7 +43,7 @@ public class InitializationServlet extends HttpServlet {
 			} else {
 				//Si la table n'existe pas on la créée
 				Statement statement = connexion.createStatement() ;
-				statement.executeUpdate("CREATE TABLE Livre (id INT,author CHAR , title CHAR, year INT)");
+				statement.executeUpdate("CREATE TABLE Livre (id INT,author VARCHAR(100) , title VARCHAR(100), year INT)");
 			}
 
 		} catch (InstantiationException e1) {
