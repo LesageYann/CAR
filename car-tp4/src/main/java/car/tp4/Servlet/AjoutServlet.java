@@ -1,4 +1,4 @@
-package car.tp4;
+package car.tp4.Servlet;
 
 import java.io.IOException;
 
@@ -9,11 +9,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import car.tp4.Entity.BookDAO;
+import car.tp4.Session.Interface.BookLibItf;
+
+/**
+ * Servlet permettant l'ajout d'un nouveau livre en base
+ * 
+ * @author Antoine PETIT & Yann LESAGE
+ *
+ */
 @WebServlet(urlPatterns = "/ajoutLivre")
 public class AjoutServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Service gérant l'ajout en base du livre et la redirection vers le formulaire
+	 */
 	public void service(final HttpServletRequest request,final HttpServletResponse response){
 		final String author = request.getParameter("author");
 		final String title = request.getParameter("title");

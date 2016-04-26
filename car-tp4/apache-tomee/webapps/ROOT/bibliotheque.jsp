@@ -22,7 +22,7 @@
 
 %>
 
-	Le contenu n'est pas initialis&eacute;, veuillez l'initialiser : <a href='/init'>Cliquez ici</a>
+	Le contenu n'est pas initialis&eacute;, veuillez l'initialiser : <a href='/init'>Cliquez ici</a><br/>
 	
 <%
 	}

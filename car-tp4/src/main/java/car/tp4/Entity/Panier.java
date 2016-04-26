@@ -1,4 +1,4 @@
-package car.tp4;
+package car.tp4.Entity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,6 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * Classe décrivant un panier contenant des livres, chaque livre peut être possédé en une quantité particulière
+ * 
+ * @author Antoine PETIT & Yann LESAGE
+ *
+ */
 @Entity
 public class Panier {
 
@@ -18,10 +24,17 @@ public class Panier {
 	private Map<Integer, Integer> content;
 	private int nbArticles = 0;
 
+	/**
+	 * Constructeur de la classe Panier
+	 */
 	public Panier() {
 		this.content = new HashMap<Integer, Integer>();
 	}
 
+	/**
+	 * Ajoute le livre au panier
+	 * @param id id du livre
+	 */
 	public void addBook(int id) {
 		Integer previousValue = this.content.get(id);
 		if (previousValue == null) {
@@ -32,7 +45,11 @@ public class Panier {
 		}
 		nbArticles++;
 	}
-
+	
+	/**
+	 * Retire un livre du panier
+	 * @param id id du livre
+	 */
 	public void removeBook(int id) {
 		Integer previousValue = this.content.get(id);
 		if (previousValue != null) {
@@ -47,18 +64,34 @@ public class Panier {
 		}
 	}
 	
+	/**
+	 * Retourne l'id du panier
+	 * @return l'id du panier
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Set l'id du panier
+	 * @param id id du panier
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	/**
+	 * Retourne la map représentant le contenu du panier
+	 * @return la map représentant le contenu du panier
+	 */
 	public Map<Integer, Integer> getContent() {
 		return content;
 	}
 
+	/**
+	 * Retourne la quantité total de livre contenu dans le panier
+	 * @return
+	 */
 	public int getNbArticles() {
 		return nbArticles;
 	}

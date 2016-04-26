@@ -1,4 +1,4 @@
-package car.tp4;
+package car.tp4.Servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -12,11 +12,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import car.tp4.Entity.Panier;
+import car.tp4.Session.BookLib;
+import car.tp4.Session.Interface.BookLibItf;
+
+/**
+ * Servlet permettant l'initialisation de l'application
+ * 
+ * @author Antoine PETIT & Yann LESAGE
+ *
+ */
 @WebServlet(urlPatterns = "/init")
 public class InitializationServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Service gérant l'initialisation et la redireciton vers la liste des auteurs
+	 */
 	public void service(final HttpServletRequest request, final HttpServletResponse response) {
 		BookLibItf myBookLib = new BookLib();
 		Panier panier = new Panier();

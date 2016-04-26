@@ -1,10 +1,16 @@
-package car.tp4;
+package car.tp4.Entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * Classe représentant les livres dans l'application
+ * 
+ * @author Antoine PETIT & Yann LESAGE
+ *
+ */
 @Entity
 public class BookDAO {
 
@@ -20,6 +26,12 @@ public class BookDAO {
 	
 	private int year;
 	
+	/**
+	 * Constructeur
+	 * @param author l'auteur du livre
+	 * @param title le titre du livre
+	 * @param year l'année de paruption du livre
+	 */
 	public BookDAO(final String author,final String title, int year) {
 		this.id = count++;
 		this.author = author;
@@ -27,6 +39,13 @@ public class BookDAO {
 		this.year = year;
 	}
 	
+	/**
+	 * Constructeur
+	 * @param id l'id du livre
+	 * @param author l'auteur du livre
+	 * @param title le titre du livre
+	 * @param year l'année de paruption du livre
+	 */
 	public BookDAO(int id,final String author,final String title, int year) {
 		this.id = id;
 		this.author = author;

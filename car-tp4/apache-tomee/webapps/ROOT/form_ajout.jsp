@@ -1,6 +1,19 @@
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
+<%@ page import="car.tp4.*" %>
 <html>
 
+<h1>Formulaire d'ajout de livre</h1>
 <%
+	BookLibItf bookLib = (BookLibItf) session.getAttribute("library");
+	if (bookLib == null) {  
+
+%>
+
+	Le contenu n'est pas initialis&eacute;, veuillez l'initialiser : <a href='/init'>Cliquez ici</a><br/>
+	
+<%
+	}else {
 
 String author = "";
 String title = "";
@@ -19,11 +32,14 @@ year = request.getParameter("year");
 %>
 
 <form action="/ajoutLivre">
-Auteur : <input type="text" name="author" value="<%=author%>"><br/>
-Titre : <input type="text" name="title" value="<%=title%>"><br/>
-Ann&eacute;e : <input type="text" name="year" value="<%=year%>"><br/>
+Auteur : <input type="text" name="author" required value="<%=author%>"><br/>
+Titre : <input type="text" name="title" required value="<%=title%>"><br/>
+Ann&eacute;e : <input type="number" name="year" required value="<%=year%>"><br/>
 <input type="submit">
 </form>
+<%
+}
+%>
 <a href='/autors.jsp'>Les auteurs présents</a><br/>
 <a href='/bibliotheque.jsp'>La bibliotheque</a><br/>
 </html>
