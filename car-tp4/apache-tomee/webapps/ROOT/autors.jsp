@@ -34,5 +34,6 @@
 %>
 <br/>
 <a href='/form_ajout.jsp'>Form</a><br/>
+<a href='/bibliotheque.jsp'>Bibliotheque</a><br/>
 
 </html>

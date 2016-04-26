@@ -24,4 +24,6 @@ Titre : <input type="text" name="title" value="<%=title%>"><br/>
 Ann&eacute;e : <input type="text" name="year" value="<%=year%>"><br/>
 <input type="submit">
 </form>
+<a href='/autors.jsp'>Les auteurs présents</a><br/>
+<a href='/bibliotheque.jsp'>La bibliotheque</a><br/>
 </html>

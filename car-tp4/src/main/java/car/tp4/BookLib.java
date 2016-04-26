@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.Stateful;
@@ -77,6 +78,16 @@ public class BookLib implements BookLibItf {
 
 	public List<BookDAO> getBooks() {
 		return this.bibli;
+	}
+
+	public BookDAO getBook(int id) {
+		Iterator<BookDAO> it = this.bibli.iterator();
+		while (it.hasNext()) {
+			BookDAO book = (BookDAO) it.next();
+			if (book.id == id)
+				return book;
+		}
+		return null;
 	}
 
 }

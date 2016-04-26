@@ -16,4 +16,6 @@ public interface BookLibItf {
 	
 	public void addBook(final BookDAO book);
 	
+	public BookDAO getBook(int id);
+	
 }

@@ -16,7 +16,8 @@
 %>
 
 <%
-	BookLibItf bookLib = (BookLibItf) session.getAttribute("library");;
+	BookLibItf bookLib = (BookLibItf) session.getAttribute("library");
+	Panier panier = (Panier)session.getAttribute("panier");
 	if (bookLib == null) {  
 
 %>
@@ -27,6 +28,7 @@
 	}
 	else {
 %>
+	<p id="nbLivrePanier"> Vous avez actuellement <%=panier.getNbArticles()%> livres dans votre <a href='/panier.jsp'>panier</a></p>
 	<table>
 		<tr>
 			<td>Auteur</td>
@@ -39,7 +41,7 @@
 			out.print("<td>"+book.getAuthor()+"</td>");
 			out.print("<td>"+book.getTitle()+"</td>");
 			out.print("<td>"+book.getYear()+"</td>");
-			out.print("<td>"+book.id +"</td>");
+			out.print("<td><a href='/addPanier?id="+book.id +"'>+</a></td>");
 			out.print("</tr>");
 		}
 %>

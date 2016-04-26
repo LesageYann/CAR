@@ -19,7 +19,7 @@ public class InitializationServlet extends HttpServlet {
 
 	public void service(final HttpServletRequest request, final HttpServletResponse response) {
 		BookLibItf myBookLib = new BookLib();
-
+		Panier panier = new Panier();
 		List<String> error = new ArrayList<String>();
 
 		try {
@@ -34,6 +34,7 @@ public class InitializationServlet extends HttpServlet {
 			error.add(e.getMessage());		
 		}
 		request.getSession().setAttribute("library", myBookLib);
+		request.getSession().setAttribute("panier", panier);
 		request.setAttribute("error", error);
 		// Redirection
 		RequestDispatcher dispatcher = request.getRequestDispatcher("autors.jsp");
