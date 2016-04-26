@@ -7,11 +7,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import car.tp4.Entity.BookDAO;
-
 /**
  * Classe tentant d'utiliser l'entity manager
- * @author Antoine PETIT & Yann LESAGE
+ * @author Antoine PETIT et Yann LESAGE
  *
  */
 @Stateless
